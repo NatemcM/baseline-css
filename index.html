@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <title>Baseline CSS — Demo</title>
+  <link rel="stylesheet" href="baseline.css">
+  <style>
+    /* Demo-only styles — not part of the framework */
+    .swatch {
+      width: 3rem;
+      height: 3rem;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .demo-section {
+      scroll-margin-top: 5rem;
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: var(--t-sm);
+      background-color: var(--surface-sunken);
+      padding: 0.125rem 0.375rem;
+      border-radius: var(--r-sm);
+    }
+
+    .code-block {
+      font-family: var(--font-mono);
+      font-size: var(--t-sm);
+      background-color: var(--surface-sunken);
+      padding: var(--s-4);
+      border-radius: var(--r-lg);
+      overflow-x: auto;
+      white-space: pre;
+      line-height: var(--lh-relaxed);
+    }
+
+    /* Spinner ring — demo-specific visual trick */
+    .spinner-ring {
+      border: 3px solid var(--border-subtle);
+      border-top-color: var(--primary);
+    }
+
+    /* Stat number animation */
+    .stat-value {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Active theme button indicator */
+    .theme-active {
+      border-color: var(--primary) !important;
+      color: var(--primary) !important;
+    }
+
+    /* Base size preview card */
+    .base-size-preview {
+      transition: all 0.2s ease;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================================================================
+       NAVIGATION
+       ================================================================ -->
+  <nav layout="row center-between sticky" class="px:6 py:3 bg:surface bb:1 bc:border-subtle z:sticky">
+    <div layout="row center g6">
+      <a href="#" class="t:sm fw:600 c:text td:none ls:tight">Baseline<span class="c:text-muted fw:400">.css</span></a>
+      <div layout="row center g4">
+        <a href="#components" class="c:text-muted t:sm td:none :hover>c:text">Components</a>
+        <a href="#typography" class="c:text-muted t:sm td:none :hover>c:text">Typography</a>
+        <a href="#layout-demo" class="c:text-muted t:sm td:none :hover>c:text">Layout</a>
+        <a href="#forms" class="c:text-muted t:sm td:none :hover>c:text">Forms</a>
+        <a href="#base-size" class="c:text-muted t:sm td:none :hover>c:text">Scaling</a>
+      </div>
+    </div>
+
+    <div layout="row center g3">
+      <a href="https://github.com" class="c:text-muted t:sm td:none :hover>c:text">GitHub</a>
+      <button id="theme-toggle" class="px:3 py:1 t:sm bg:surface c:text r:md tr:colors :hover>bg:neutral-2 b:1 bc:border-subtle">
+        Dark
+      </button>
+    </div>
+  </nav>
+
+
+  <!-- ================================================================
+       HERO
+       ================================================================ -->
+  <section layout="container" class="py:16 demo-section">
+    <div layout="col g4" class="max-w:lg">
+      <span class="px:2 py:1 t:xs fw:500 bg:surface-sunken c:text-muted r:md w:fit b:1 bc:border-subtle">v0.1.0</span>
+      <h1 class="t:3xl fw:600 c:text lh:tight ls:tight">
+        Build interfaces with<br>
+        <span class="c:text-muted">pure CSS utilities.</span>
+      </h1>
+      <p class="t:sm c:text-muted lh:relaxed max-w:prose">
+        A CSS-native utility framework. Zero build step. CSP-compliant. Composable themes. Semantic design tokens. Ship a single stylesheet.
+      </p>
+      <div layout="row g2">
+        <a href="#components" class="px:4 py:2 bg:text c:surface r:md fw:500 t:sm tr:colors :hover>o:90 td:none">
+          Get Started
+        </a>
+        <a href="#base-size" class="px:4 py:2 bg:surface c:text r:md fw:500 t:sm b:1 bc:border tr:colors :hover>bg:neutral-2 td:none">
+          See Scaling
+        </a>
+      </div>
+      <div class="code-block mt:2">&lt;link rel="stylesheet" href="baseline.css"&gt;</div>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       STATS / METRICS (Dashboard-style)
+       ================================================================ -->
+  <section layout="container" class="pb:12 demo-section">
+    <div layout="grid cols-1 @md:cols-4 g4">
+      <div class="p:6 bg:surface r:lg b:1 bc:border">
+        <p class="t:sm c:text-muted mb:1">File Size</p>
+        <p class="t:2xl fw:600 c:text stat-value">~8 KB</p>
+        <p class="t:xs c:text-faint mt:1">Gzipped. No build step.</p>
+      </div>
+      <div class="p:6 bg:surface r:lg b:1 bc:border">
+        <p class="t:sm c:text-muted mb:1">Dependencies</p>
+        <p class="t:2xl fw:600 c:text stat-value">0</p>
+        <p class="t:xs c:text-faint mt:1">Pure CSS. Nothing else.</p>
+      </div>
+      <div class="p:6 bg:surface r:lg b:1 bc:border">
+        <p class="t:sm c:text-muted mb:1">CSP Compliant</p>
+        <p class="t:2xl fw:600 c:text stat-value">100%</p>
+        <p class="t:xs c:text-faint mt:1">Zero inline styles.</p>
+      </div>
+      <div class="p:6 bg:surface r:lg b:1 bc:border">
+        <p class="t:sm c:text-muted mb:1">Themes</p>
+        <p class="t:2xl fw:600 c:text stat-value">Composable</p>
+        <p class="t:xs c:text-faint mt:1">Stack via data-theme.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       THEME CONTROLS
+       ================================================================ -->
+  <section layout="container" class="py:8 demo-section" id="themes">
+    <div class="p:6 bg:surface r:lg b:1 bc:border">
+      <div layout="row center-between wrap g4" class="mb:4">
+        <div>
+          <h2 class="t:sm fw:600 c:text">Theme Controls</h2>
+          <p class="t:xs c:text-muted mt:1">Composable themes — toggle independently, they stack without conflicts.</p>
+        </div>
+        <p class="t:xs c:text-faint">Active: <code id="current-theme">light (default)</code></p>
+      </div>
+      <div layout="row wrap g2">
+        <button data-theme-btn="dark" class="px:3 py:1 t:xs bg:surface c:text r:md b:1 bc:border-subtle tr:colors :hover>bg:neutral-2 fw:500">
+          Dark
+        </button>
+        <button data-theme-btn="high-contrast" class="px:3 py:1 t:xs bg:surface c:text r:md b:1 bc:border-subtle tr:colors :hover>bg:neutral-2 fw:500">
+          High Contrast
+        </button>
+        <button data-theme-btn="large-text" class="px:3 py:1 t:xs bg:surface c:text r:md b:1 bc:border-subtle tr:colors :hover>bg:neutral-2 fw:500">
+          Large Text
+        </button>
+        <button data-theme-btn="reduce-motion" class="px:3 py:1 t:xs bg:surface c:text r:md b:1 bc:border-subtle tr:colors :hover>bg:neutral-2 fw:500">
+          Reduce Motion
+        </button>
+        <button id="reset-themes" class="px:3 py:1 t:xs bg:surface c:text-muted r:md b:1 bc:border-subtle tr:colors :hover>bg:neutral-2 fw:500">
+          Reset
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       COMPONENTS
+       ================================================================ -->
+  <section layout="container" class="py:12 demo-section" id="components">
+    <div class="mb:2">
+      <h2 class="t:lg fw:600 c:text">Components</h2>
+      <p class="t:sm c:text-muted mt:1">Built entirely with Baseline CSS utilities. No component CSS required.</p>
+    </div>
+
+
+    <!-- Buttons -->
+    <div class="mt:8 mb:12">
+      <h3 class="t:sm fw:500 c:text mb:4">Buttons</h3>
+
+      <div layout="row wrap g2" class="mb:6">
+        <button class="px:4 py:2 bg:text c:surface r:md fw:500 t:sm tr:colors :hover>o:90 :focus>ring">
+          Default
+        </button>
+        <button class="px:4 py:2 bg:danger c:text-inverse r:md fw:500 t:sm tr:colors :hover>bg :focus>ring">
+          Destructive
+        </button>
+        <button class="px:4 py:2 bg:surface c:text r:md fw:500 t:sm b:1 bc:border tr:colors :hover>bg:neutral-2 :focus>ring">
+          Outline
+        </button>
+        <button class="px:4 py:2 bg:neutral-2 c:text r:md fw:500 t:sm tr:colors :hover>bg:neutral-3">
+          Secondary
+        </button>
+        <button class="px:4 py:2 bg:transparent c:text r:md fw:500 t:sm tr:colors :hover>bg:neutral-2">
+          Ghost
+        </button>
+        <button class="px:4 py:2 bg:transparent c:text r:md fw:500 t:sm td:underline :hover>td:none">
+          Link
+        </button>
+        <button class="px:4 py:2 bg:text c:surface r:md fw:500 t:sm :disabled>o:50" disabled>
+          Disabled
+        </button>
+      </div>
+
+      <h4 class="t:xs fw:500 c:text-muted mb:3">Sizes</h4>
+      <div layout="row wrap center-start g2">
+        <button class="px:2 py:1 bg:text c:surface r:md fw:500 t:xs tr:colors :hover>o:90">
+          Small
+        </button>
+        <button class="px:4 py:2 bg:text c:surface r:md fw:500 t:sm tr:colors :hover>o:90">
+          Default
+        </button>
+        <button class="px:6 py:3 bg:text c:surface r:md fw:500 t:sm tr:colors :hover>o:90">
+          Large
+        </button>
+      </div>
+    </div>
+
+
+    <!-- Cards -->
+    <div class="mb:12">
+      <h3 class="t:sm fw:500 c:text mb:4">Cards</h3>
+
+      <div layout="grid cols-1 @md:cols-3 g4">
+
+        <!-- Basic Card -->
+        <div layout="col g3" class="p:6 bg:surface r:lg b:1 bc:border">
+          <div layout="row center-between">
+            <h4 class="t:sm fw:600 c:text">Basic Card</h4>
+            <span class="t:xs c:text-faint">3 min ago</span>
+          </div>
+          <p class="t:sm c:text-muted lh:relaxed">Standard card with layout attributes for structure and utility classes for style.</p>
+          <div layout="row g2" class="pt:3 bt:1 bc:border-subtle">
+            <button class="px:3 py:1 t:xs bg:text c:surface r:md fw:500 tr:colors :hover>o:90">Action</button>
+            <button class="px:3 py:1 t:xs c:text-muted r:md tr:colors :hover>bg:neutral-2">Cancel</button>
+          </div>
+        </div>
+
+        <!-- Bordered Card with Badge -->
+        <div layout="col g3" class="p:6 bg:surface r:lg b:1 bc:border">
+          <span class="px:2 py:1 t:xs fw:500 bg:surface-sunken c:text-muted r:md w:fit b:1 bc:border-subtle">Active</span>
+          <h4 class="t:sm fw:600 c:text">Status Card</h4>
+          <p class="t:sm c:text-muted lh:relaxed">Uses a subtle badge for status. Clean borders instead of heavy shadows.</p>
+          <div layout="row center-between" class="pt:3 bt:1 bc:border-subtle">
+            <span class="t:xs c:text-faint">Updated today</span>
+            <button class="c:text t:xs fw:500 tr:colors :hover>c:text-muted td:none">View &rarr;</button>
+          </div>
+        </div>
+
+        <!-- Accent Card -->
+        <div layout="col g3" class="p:6 bg:surface r:lg b:1 bc:border">
+          <h4 class="t:sm fw:600 c:text">Feature Card</h4>
+          <p class="t:sm c:text-muted lh:relaxed">Minimal card design that pairs well with the dashboard layout pattern.</p>
+          <button class="px:3 py:1 t:xs bg:text c:surface r:md fw:500 tr:colors :hover>o:90 mt:auto w:fit">
+            Learn More
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Alerts -->
+    <div class="mb:12">
+      <h3 class="t:sm fw:500 c:text mb:4">Alerts</h3>
+
+      <div layout="col g3">
+        <div class="p:4 bg:surface r:lg b:1 bc:border">
+          <p class="t:sm fw:500 c:text mb:1">Heads up!</p>
+          <p class="t:sm c:text-muted">You can add components to your app using the CLI.</p>
+        </div>
+        <div class="p:4 bg:danger-subtle r:lg b:1 bc:danger">
+          <p class="t:sm fw:500 c:danger mb:1">Error</p>
+          <p class="t:sm c:text-muted">Your session has expired. Please log in again.</p>
+        </div>
+        <div class="p:4 bg:success-subtle r:lg b:1 bc:success">
+          <p class="t:sm fw:500 c:success mb:1">Success</p>
+          <p class="t:sm c:text-muted">Your changes have been saved successfully.</p>
+        </div>
+        <div class="p:4 bg:warning-subtle r:lg b:1 bc:warning">
+          <p class="t:sm fw:500 c:warning mb:1">Warning</p>
+          <p class="t:sm c:text-muted">Your trial expires in 3 days.</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Badges -->
+    <div class="mb:12">
+      <h3 class="t:sm fw:500 c:text mb:4">Badges</h3>
+      <div layout="row wrap g2">
+        <span class="px:2 py:1 t:xs fw:500 bg:text c:surface r:full">Default</span>
+        <span class="px:2 py:1 t:xs fw:500 bg:neutral-2 c:text r:full">Secondary</span>
+        <span class="px:2 py:1 t:xs fw:500 bg:surface c:text r:full b:1 bc:border">Outline</span>
+        <span class="px:2 py:1 t:xs fw:500 bg:danger c:text-inverse r:full">Destructive</span>
+        <span class="px:2 py:1 t:xs fw:500 bg:success-subtle c:success r:full">Success</span>
+        <span class="px:2 py:1 t:xs fw:500 bg:warning-subtle c:warning r:full">Warning</span>
+      </div>
+    </div>
+
+
+    <!-- Avatars -->
+    <div class="mb:12">
+      <h3 class="t:sm fw:500 c:text mb:4">Avatars</h3>
+      <div layout="row center-start g2">
+        <div layout="row center" class="size:8 bg:neutral-3 c:text r:full fw:500 t:xs">CN</div>
+        <div layout="row center" class="size:8 bg:neutral-3 c:text r:full fw:500 t:xs">JD</div>
+        <div layout="row center" class="size:8 bg:neutral-3 c:text r:full fw:500 t:xs">AB</div>
+        <div layout="row center" class="size:10 bg:neutral-3 c:text r:full fw:500 t:sm">LG</div>
+        <div layout="row center" class="size:12 bg:neutral-3 c:text r:full fw:500 t:base">MK</div>
+      </div>
+    </div>
+
+
+    <!-- Pricing Cards -->
+    <div class="mb:12">
+      <h3 class="t:sm fw:500 c:text mb:4">Pricing</h3>
+      <div layout="grid cols-1 @md:cols-3 g4">
+
+        <div layout="col g4" class="p:6 bg:surface r:lg b:1 bc:border">
+          <h4 class="t:sm fw:600 c:text">Free</h4>
+          <div layout="row baseline g1" class="mt:2">
+            <span class="t:3xl fw:600 c:text stat-value">$0</span>
+            <span class="t:sm c:text-muted">/month</span>
+          </div>
+          <p class="t:sm c:text-muted mt:1">For individuals getting started.</p>
+          <div layout="col g2" class="bt:1 bc:border-subtle pt:4 mt:2">
+            <span class="t:sm c:text">1 project</span>
+            <span class="t:sm c:text">Basic analytics</span>
+            <span class="t:sm c:text-faint">No custom domains</span>
+          </div>
+          <button class="px:4 py:2 bg:surface c:text r:md fw:500 t:sm b:1 bc:border tr:colors :hover>bg:neutral-2 mt:auto w:full">
+            Get Started
+          </button>
+        </div>
+
+        <div layout="col g4" class="p:6 bg:surface r:lg b:2 bc:text">
+          <div layout="row center-between">
+            <h4 class="t:sm fw:600 c:text">Pro</h4>
+            <span class="px:2 py:1 t:xs fw:500 bg:text c:surface r:full">Popular</span>
+          </div>
+          <div layout="row baseline g1" class="mt:2">
+            <span class="t:3xl fw:600 c:text stat-value">$19</span>
+            <span class="t:sm c:text-muted">/month</span>
+          </div>
+          <p class="t:sm c:text-muted mt:1">For small teams and professionals.</p>
+          <div layout="col g2" class="bt:1 bc:border-subtle pt:4 mt:2">
+            <span class="t:sm c:text">Unlimited projects</span>
+            <span class="t:sm c:text">Advanced analytics</span>
+            <span class="t:sm c:text">Custom domains</span>
+          </div>
+          <button class="px:4 py:2 bg:text c:surface r:md fw:500 t:sm tr:colors :hover>o:90 mt:auto w:full">
+            Start Free Trial
+          </button>
+        </div>
+
+        <div layout="col g4" class="p:6 bg:surface r:lg b:1 bc:border">
+          <h4 class="t:sm fw:600 c:text">Enterprise</h4>
+          <div layout="row baseline g1" class="mt:2">
+            <span class="t:3xl fw:600 c:text stat-value">$99</span>
+            <span class="t:sm c:text-muted">/month</span>
+          </div>
+          <p class="t:sm c:text-muted mt:1">For large teams and organisations.</p>
+          <div layout="col g2" class="bt:1 bc:border-subtle pt:4 mt:2">
+            <span class="t:sm c:text">Everything in Pro</span>
+            <span class="t:sm c:text">SSO &amp; audit logs</span>
+            <span class="t:sm c:text">Priority support</span>
+          </div>
+          <button class="px:4 py:2 bg:surface c:text r:md fw:500 t:sm b:1 bc:border tr:colors :hover>bg:neutral-2 mt:auto w:full">
+            Contact Sales
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       TYPOGRAPHY
+       ================================================================ -->
+  <section layout="container" class="py:12 demo-section" id="typography">
+    <div class="mb:8">
+      <h2 class="t:lg fw:600 c:text">Typography</h2>
+      <p class="t:sm c:text-muted mt:1">A complete type scale from <code>t:xs</code> to <code>t:5xl</code>.</p>
+    </div>
+
+    <div class="p:6 bg:surface r:lg b:1 bc:border">
+      <div layout="col g3">
+        <div layout="row center-start g4">
+          <span class="c:text-faint t:xs min-w:8 ff:mono">5xl</span>
+          <span class="t:5xl fw:600 c:text lh:tight">Aa</span>
+        </div>
+        <div layout="row center-start g4">
+          <span class="c:text-faint t:xs min-w:8 ff:mono">4xl</span>
+          <span class="t:4xl fw:600 c:text lh:tight">Aa</span>
+        </div>
+        <div layout="row center-start g4">
+          <span class="c:text-faint t:xs min-w:8 ff:mono">3xl</span>
+          <span class="t:3xl fw:600 c:text">Aa</span>
+        </div>
+        <div layout="row center-start g4" class="bb:1 bc:border-subtle pb:3">
+          <span class="c:text-faint t:xs min-w:8 ff:mono">2xl</span>
+          <span class="t:2xl fw:600 c:text">Aa</span>
+        </div>
+        <div layout="row center-start g4">
+          <span class="c:text-faint t:xs min-w:8 ff:mono">xl</span>
+          <span class="t:xl fw:500 c:text">The quick brown fox jumps over the lazy dog</span>
+        </div>
+        <div layout="row center-start g4">
+          <span class="c:text-faint t:xs min-w:8 ff:mono">lg</span>
+          <span class="t:lg fw:500 c:text">The quick brown fox jumps over the lazy dog</span>
+        </div>
+        <div layout="row center-start g4">
+          <span class="c:text-faint t:xs min-w:8 ff:mono">base</span>
+          <span class="t:base c:text">The quick brown fox jumps over the lazy dog</span>
+        </div>
+        <div layout="row center-start g4">
+          <span class="c:text-faint t:xs min-w:8 ff:mono">sm</span>
+          <span class="t:sm c:text">The quick brown fox jumps over the lazy dog</span>
+        </div>
+        <div layout="row center-start g4">
+          <span class="c:text-faint t:xs min-w:8 ff:mono">xs</span>
+          <span class="t:xs c:text">The quick brown fox jumps over the lazy dog</span>
+        </div>
+      </div>
+    </div>
+
+    <div layout="grid cols-1 @md:cols-3 g4" class="mt:6">
+      <div class="p:6 bg:surface r:lg b:1 bc:border">
+        <h4 class="t:xs fw:500 c:text-muted mb:3 ff:mono">font-sans</h4>
+        <p class="ff:sans c:text t:sm lh:relaxed">Typography is the art and technique of arranging type to make written language legible and appealing.</p>
+      </div>
+      <div class="p:6 bg:surface r:lg b:1 bc:border">
+        <h4 class="t:xs fw:500 c:text-muted mb:3 ff:mono">font-serif</h4>
+        <p class="ff:serif c:text t:sm lh:relaxed">Typography is the art and technique of arranging type to make written language legible and appealing.</p>
+      </div>
+      <div class="p:6 bg:surface r:lg b:1 bc:border">
+        <h4 class="t:xs fw:500 c:text-muted mb:3 ff:mono">font-mono</h4>
+        <p class="ff:mono c:text t:sm lh:relaxed">Typography is the art and technique of arranging type to make written language legible and appealing.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       COLOURS
+       ================================================================ -->
+  <section layout="container" class="py:12 demo-section" id="colours">
+    <div class="mb:8">
+      <h2 class="t:lg fw:600 c:text">Colours</h2>
+      <p class="t:sm c:text-muted mt:1">Semantic colour tokens that adapt to the active theme.</p>
+    </div>
+
+    <!-- Brand Colours -->
+    <div class="p:6 bg:surface r:lg b:1 bc:border mb:4">
+      <h3 class="t:xs fw:500 c:text-muted mb:4 ff:mono">Brand</h3>
+      <div layout="grid cols-2 @md:cols-4 g4">
+        <div layout="col g2">
+          <div class="swatch bg:primary w:full h:auto aspect:video r:md"></div>
+          <span class="t:xs c:text-muted ff:mono">primary</span>
+        </div>
+        <div layout="col g2">
+          <div class="swatch bg:secondary w:full h:auto aspect:video r:md"></div>
+          <span class="t:xs c:text-muted ff:mono">secondary</span>
+        </div>
+        <div layout="col g2">
+          <div class="swatch bg:accent w:full h:auto aspect:video r:md"></div>
+          <span class="t:xs c:text-muted ff:mono">accent</span>
+        </div>
+        <div layout="col g2">
+          <div class="swatch bg:primary-subtle w:full h:auto aspect:video r:md"></div>
+          <span class="t:xs c:text-muted ff:mono">primary-subtle</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feedback -->
+    <div class="p:6 bg:surface r:lg b:1 bc:border mb:4">
+      <h3 class="t:xs fw:500 c:text-muted mb:4 ff:mono">Feedback</h3>
+      <div layout="grid cols-2 @md:cols-4 g4">
+        <div layout="col g2">
+          <div class="swatch bg:success w:full h:auto aspect:video r:md"></div>
+          <span class="t:xs c:text-muted ff:mono">success</span>
+        </div>
+        <div layout="col g2">
+          <div class="swatch bg:warning w:full h:auto aspect:video r:md"></div>
+          <span class="t:xs c:text-muted ff:mono">warning</span>
+        </div>
+        <div layout="col g2">
+          <div class="swatch bg:danger w:full h:auto aspect:video r:md"></div>
+          <span class="t:xs c:text-muted ff:mono">danger</span>
+        </div>
+        <div layout="col g2">
+          <div class="swatch bg:info w:full h:auto aspect:video r:md"></div>
+          <span class="t:xs c:text-muted ff:mono">info</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Neutrals -->
+    <div class="p:6 bg:surface r:lg b:1 bc:border mb:4">
+      <h3 class="t:xs fw:500 c:text-muted mb:4 ff:mono">Neutrals</h3>
+      <div layout="row g0 clip" class="r:md">
+        <div layout="fill" class="bg:neutral-1 p:3 py:6"><span class="t:xs c:neutral-9 fw:500 ff:mono">1</span></div>
+        <div layout="fill" class="bg:neutral-2 p:3 py:6"><span class="t:xs c:neutral-9 fw:500 ff:mono">2</span></div>
+        <div layout="fill" class="bg:neutral-3 p:3 py:6"><span class="t:xs c:neutral-9 fw:500 ff:mono">3</span></div>
+        <div layout="fill" class="bg:neutral-4 p:3 py:6"><span class="t:xs c:neutral-9 fw:500 ff:mono">4</span></div>
+        <div layout="fill" class="bg:neutral-5 p:3 py:6"><span class="t:xs c:neutral-1 fw:500 ff:mono">5</span></div>
+        <div layout="fill" class="bg:neutral-6 p:3 py:6"><span class="t:xs c:neutral-1 fw:500 ff:mono">6</span></div>
+        <div layout="fill" class="bg:neutral-7 p:3 py:6"><span class="t:xs c:neutral-1 fw:500 ff:mono">7</span></div>
+        <div layout="fill" class="bg:neutral-8 p:3 py:6"><span class="t:xs c:neutral-1 fw:500 ff:mono">8</span></div>
+        <div layout="fill" class="bg:neutral-9 p:3 py:6"><span class="t:xs c:neutral-1 fw:500 ff:mono">9</span></div>
+      </div>
+    </div>
+
+    <!-- Surfaces -->
+    <div class="p:6 bg:surface r:lg b:1 bc:border">
+      <h3 class="t:xs fw:500 c:text-muted mb:4 ff:mono">Surfaces</h3>
+      <div layout="grid cols-1 @md:cols-4 g4">
+        <div class="p:4 bg:surface r:md b:1 bc:border-subtle">
+          <span class="t:xs c:text-muted ff:mono">surface</span>
+        </div>
+        <div class="p:4 bg:surface-raised r:md b:1 bc:border-subtle">
+          <span class="t:xs c:text-muted ff:mono">surface-raised</span>
+        </div>
+        <div class="p:4 bg:surface-sunken r:md b:1 bc:border-subtle">
+          <span class="t:xs c:text-muted ff:mono">surface-sunken</span>
+        </div>
+        <div class="p:4 bg:surface-overlay r:md b:1 bc:border-subtle">
+          <span class="t:xs c:text-muted ff:mono">surface-overlay</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       LAYOUT DEMO
+       ================================================================ -->
+  <section layout="container" class="py:12 demo-section" id="layout-demo">
+    <div class="mb:8">
+      <h2 class="t:lg fw:600 c:text">Layout</h2>
+      <p class="t:sm c:text-muted mt:1">The <code>layout</code> attribute handles all structural composition.</p>
+    </div>
+
+    <!-- Flex Row -->
+    <div class="p:6 bg:surface r:lg b:1 bc:border mb:4">
+      <h3 class="t:xs fw:500 c:text-muted mb:4 ff:mono">Flex</h3>
+      <div layout="col g4">
+        <div>
+          <code class="t:xs mb:2">layout="row center-between"</code>
+          <div layout="row center-between" class="p:3 bg:surface-sunken r:md mt:2">
+            <span class="px:3 py:1 bg:text c:surface r:md t:xs fw:500">Start</span>
+            <span class="px:3 py:1 bg:text c:surface r:md t:xs fw:500">End</span>
+          </div>
+        </div>
+        <div>
+          <code class="t:xs mb:2">layout="row center g4"</code>
+          <div layout="row center g4" class="p:3 bg:surface-sunken r:md mt:2">
+            <span class="px:3 py:1 bg:neutral-3 c:text r:md t:xs fw:500">A</span>
+            <span class="px:3 py:1 bg:neutral-3 c:text r:md t:xs fw:500">B</span>
+            <span class="px:3 py:1 bg:neutral-3 c:text r:md t:xs fw:500">C</span>
+          </div>
+        </div>
+        <div>
+          <code class="t:xs mb:2">layout="row center-evenly wrap g3"</code>
+          <div layout="row center-evenly wrap g3" class="p:3 bg:surface-sunken r:md mt:2">
+            <span class="px:3 py:1 bg:neutral-3 c:text r:md t:xs fw:500">One</span>
+            <span class="px:3 py:1 bg:neutral-3 c:text r:md t:xs fw:500">Two</span>
+            <span class="px:3 py:1 bg:neutral-3 c:text r:md t:xs fw:500">Three</span>
+            <span class="px:3 py:1 bg:neutral-3 c:text r:md t:xs fw:500">Four</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid -->
+    <div class="p:6 bg:surface r:lg b:1 bc:border mb:4">
+      <h3 class="t:xs fw:500 c:text-muted mb:4 ff:mono">Grid</h3>
+      <div layout="col g4">
+        <div>
+          <code class="t:xs mb:2">layout="grid cols-3 g3"</code>
+          <div layout="grid cols-3 g3" class="mt:2">
+            <div class="p:3 bg:surface-sunken r:md ta:center t:xs c:text-muted ff:mono">1</div>
+            <div class="p:3 bg:surface-sunken r:md ta:center t:xs c:text-muted ff:mono">2</div>
+            <div class="p:3 bg:surface-sunken r:md ta:center t:xs c:text-muted ff:mono">3</div>
+            <div class="p:3 bg:surface-sunken r:md ta:center t:xs c:text-muted ff:mono">4</div>
+            <div class="p:3 bg:surface-sunken r:md ta:center t:xs c:text-muted ff:mono">5</div>
+            <div class="p:3 bg:surface-sunken r:md ta:center t:xs c:text-muted ff:mono">6</div>
+          </div>
+        </div>
+        <div>
+          <code class="t:xs mb:2">layout="grid cols-auto g3"</code>
+          <div layout="grid cols-auto g3" class="mt:2">
+            <div class="p:4 bg:surface-sunken r:md ta:center t:xs c:text-muted ff:mono">Auto</div>
+            <div class="p:4 bg:surface-sunken r:md ta:center t:xs c:text-muted ff:mono">Responsive</div>
+            <div class="p:4 bg:surface-sunken r:md ta:center t:xs c:text-muted ff:mono">Grid</div>
+            <div class="p:4 bg:surface-sunken r:md ta:center t:xs c:text-muted ff:mono">Columns</div>
+            <div class="p:4 bg:surface-sunken r:md ta:center t:xs c:text-muted ff:mono">Wrap</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Responsive -->
+    <div class="p:6 bg:surface r:lg b:1 bc:border">
+      <h3 class="t:xs fw:500 c:text-muted mb:4 ff:mono">Responsive</h3>
+      <code class="t:xs mb:2">layout="col @md:row g4"</code>
+      <div layout="col @md:row g4" class="mt:3">
+        <div layout="fill" class="p:4 bg:surface-sunken r:md b:1 bc:border-subtle">
+          <h4 class="fw:500 c:text t:sm mb:1">Panel 1</h4>
+          <p class="t:xs c:text-muted">Stacks vertically on small screens.</p>
+        </div>
+        <div layout="fill" class="p:4 bg:surface-sunken r:md b:1 bc:border-subtle">
+          <h4 class="fw:500 c:text t:sm mb:1">Panel 2</h4>
+          <p class="t:xs c:text-muted">Sits side-by-side on wider screens.</p>
+        </div>
+        <div layout="fill" class="p:4 bg:surface-sunken r:md b:1 bc:border-subtle">
+          <h4 class="fw:500 c:text t:sm mb:1">Panel 3</h4>
+          <p class="t:xs c:text-muted">Resize to see the breakpoint.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       FORMS
+       ================================================================ -->
+  <section layout="container" class="py:12 demo-section" id="forms">
+    <div class="mb:8">
+      <h2 class="t:lg fw:600 c:text">Forms</h2>
+      <p class="t:sm c:text-muted mt:1">Baseline resets form elements and provides tokens for consistent styling.</p>
+    </div>
+
+    <div layout="grid cols-1 @md:cols-2 g4">
+
+      <!-- Sign In Form -->
+      <div layout="col g5" class="p:6 bg:surface r:lg b:1 bc:border">
+        <div>
+          <h3 class="t:base fw:600 c:text">Sign In</h3>
+          <p class="t:sm c:text-muted mt:1">Enter your credentials to continue.</p>
+        </div>
+
+        <div layout="col g1">
+          <label class="t:sm fw:500 c:text">Email</label>
+          <input type="email" placeholder="you@example.com" class="px:3 py:2 bg:surface r:md b:1 bc:border t:sm c:text tr:colors w:full outline:none :focus>bc:text :focus>ring">
+        </div>
+
+        <div layout="col g1">
+          <label class="t:sm fw:500 c:text">Password</label>
+          <input type="password" placeholder="Enter your password" class="px:3 py:2 bg:surface r:md b:1 bc:border t:sm c:text tr:colors w:full outline:none :focus>bc:text :focus>ring">
+        </div>
+
+        <div layout="row center-between">
+          <label layout="row center g2" class="t:sm c:text-muted cursor:pointer">
+            <input type="checkbox">
+            Remember me
+          </label>
+          <a href="#" class="t:sm c:text-muted fw:500 td:underline :hover>c:text">Forgot password?</a>
+        </div>
+
+        <button class="px:4 py:2 bg:text c:surface r:md fw:500 t:sm tr:colors :hover>o:90 w:full">
+          Sign In
+        </button>
+
+        <p class="t:sm c:text-muted ta:center">
+          Don't have an account? <a href="#" class="c:text fw:500 td:underline :hover>td:none">Sign up</a>
+        </p>
+      </div>
+
+      <!-- Contact Form -->
+      <div layout="col g5" class="p:6 bg:surface r:lg b:1 bc:border">
+        <div>
+          <h3 class="t:base fw:600 c:text">Contact Us</h3>
+          <p class="t:sm c:text-muted mt:1">Send us a message and we'll get back to you.</p>
+        </div>
+
+        <div layout="grid cols-2 g4">
+          <div layout="col g1">
+            <label class="t:sm fw:500 c:text">First name</label>
+            <input type="text" placeholder="Jane" class="px:3 py:2 bg:surface r:md b:1 bc:border t:sm c:text w:full outline:none tr:colors :focus>bc:text :focus>ring">
+          </div>
+          <div layout="col g1">
+            <label class="t:sm fw:500 c:text">Last name</label>
+            <input type="text" placeholder="Doe" class="px:3 py:2 bg:surface r:md b:1 bc:border t:sm c:text w:full outline:none tr:colors :focus>bc:text :focus>ring">
+          </div>
+        </div>
+
+        <div layout="col g1">
+          <label class="t:sm fw:500 c:text">Subject</label>
+          <select class="px:3 py:2 bg:surface r:md b:1 bc:border t:sm c:text w:full outline:none tr:colors :focus>bc:text :focus>ring">
+            <option>General enquiry</option>
+            <option>Bug report</option>
+            <option>Feature request</option>
+            <option>Partnership</option>
+          </select>
+        </div>
+
+        <div layout="col g1">
+          <label class="t:sm fw:500 c:text">Message</label>
+          <textarea rows="4" placeholder="What's on your mind?" class="px:3 py:2 bg:surface r:md b:1 bc:border t:sm c:text w:full outline:none resize:y tr:colors :focus>bc:text :focus>ring"></textarea>
+        </div>
+
+        <button class="px:4 py:2 bg:text c:surface r:md fw:500 t:sm tr:colors :hover>o:90 w:full">
+          Send Message
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SHADOWS & RADII
+       ================================================================ -->
+  <section layout="container" class="py:12 demo-section">
+    <div class="mb:8">
+      <h2 class="t:lg fw:600 c:text">Shadows &amp; Radii</h2>
+      <p class="t:sm c:text-muted mt:1">Token scales for elevation and roundness.</p>
+    </div>
+
+    <div class="p:6 bg:surface r:lg b:1 bc:border mb:4">
+      <h3 class="t:xs fw:500 c:text-muted mb:4 ff:mono">Shadows</h3>
+      <div layout="grid cols-2 @md:cols-3 @lg:cols-6 g6">
+        <div layout="col center g2">
+          <div class="p:4 bg:surface-raised r:md sh:xs w:full ta:center b:1 bc:border-subtle"><code class="t:xs">xs</code></div>
+        </div>
+        <div layout="col center g2">
+          <div class="p:4 bg:surface-raised r:md sh:sm w:full ta:center b:1 bc:border-subtle"><code class="t:xs">sm</code></div>
+        </div>
+        <div layout="col center g2">
+          <div class="p:4 bg:surface-raised r:md sh:md w:full ta:center b:1 bc:border-subtle"><code class="t:xs">md</code></div>
+        </div>
+        <div layout="col center g2">
+          <div class="p:4 bg:surface-raised r:md sh:lg w:full ta:center b:1 bc:border-subtle"><code class="t:xs">lg</code></div>
+        </div>
+        <div layout="col center g2">
+          <div class="p:4 bg:surface-raised r:md sh:xl w:full ta:center b:1 bc:border-subtle"><code class="t:xs">xl</code></div>
+        </div>
+        <div layout="col center g2">
+          <div class="p:4 bg:surface-raised r:md w:full ta:center b:1 bc:border-subtle"><code class="t:xs">none</code></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p:6 bg:surface r:lg b:1 bc:border">
+      <h3 class="t:xs fw:500 c:text-muted mb:4 ff:mono">Border Radius</h3>
+      <div layout="grid cols-2 @md:cols-4 @lg:cols-8 g3">
+        <div layout="col center g2">
+          <div class="p:3 bg:surface-sunken r:none b:1 bc:border-subtle w:full aspect:square" layout="row center">
+            <code class="t:xs">none</code>
+          </div>
+        </div>
+        <div layout="col center g2">
+          <div class="p:3 bg:surface-sunken r:sm b:1 bc:border-subtle w:full aspect:square" layout="row center">
+            <code class="t:xs">sm</code>
+          </div>
+        </div>
+        <div layout="col center g2">
+          <div class="p:3 bg:surface-sunken r:md b:1 bc:border-subtle w:full aspect:square" layout="row center">
+            <code class="t:xs">md</code>
+          </div>
+        </div>
+        <div layout="col center g2">
+          <div class="p:3 bg:surface-sunken r:lg b:1 bc:border-subtle w:full aspect:square" layout="row center">
+            <code class="t:xs">lg</code>
+          </div>
+        </div>
+        <div layout="col center g2">
+          <div class="p:3 bg:surface-sunken r:xl b:1 bc:border-subtle w:full aspect:square" layout="row center">
+            <code class="t:xs">xl</code>
+          </div>
+        </div>
+        <div layout="col center g2">
+          <div class="p:3 bg:surface-sunken r:2xl b:1 bc:border-subtle w:full aspect:square" layout="row center">
+            <code class="t:xs">2xl</code>
+          </div>
+        </div>
+        <div layout="col center g2">
+          <div class="p:3 bg:surface-sunken r:3xl b:1 bc:border-subtle w:full aspect:square" layout="row center">
+            <code class="t:xs">3xl</code>
+          </div>
+        </div>
+        <div layout="col center g2">
+          <div class="p:3 bg:surface-sunken r:full b:1 bc:border-subtle w:full aspect:square" layout="row center">
+            <code class="t:xs">full</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       ANIMATIONS & REDUCE MOTION
+       ================================================================ -->
+  <section layout="container" class="py:12 demo-section" id="animations">
+    <div class="mb:8">
+      <h2 class="t:lg fw:600 c:text">Animations</h2>
+      <p class="t:sm c:text-muted mt:1">Built-in animation utilities that respect <code>reduce-motion</code>.</p>
+    </div>
+
+    <div class="p:6 bg:surface r:lg b:1 bc:border mb:4">
+      <div layout="grid cols-2 @md:cols-3 @lg:cols-6 g6">
+
+        <!-- Spin -->
+        <div layout="col center g3">
+          <div layout="row center" class="size:12 bg:surface-sunken r:md">
+            <div class="size:8 r:full anim:spin spinner-ring">
+              <span class="sr-only">Loading</span>
+            </div>
+          </div>
+          <code class="t:xs">spin</code>
+        </div>
+
+        <!-- Pulse -->
+        <div layout="col center g3">
+          <div layout="row center" class="size:12 bg:surface-sunken r:md">
+            <div class="size:4 bg:text r:full anim:pulse"></div>
+          </div>
+          <code class="t:xs">pulse</code>
+        </div>
+
+        <!-- Bounce -->
+        <div layout="col center g3">
+          <div layout="row center" class="size:12 bg:surface-sunken r:md">
+            <div class="size:6 bg:text r:md anim:bounce"></div>
+          </div>
+          <code class="t:xs">bounce</code>
+        </div>
+
+        <!-- Fade In -->
+        <div layout="col center g3">
+          <div layout="row center" class="size:12 bg:surface-sunken r:md">
+            <span class="t:lg fw:600 c:text anim:fade-in">Hi</span>
+          </div>
+          <code class="t:xs">fade-in</code>
+        </div>
+
+        <!-- Slide Up -->
+        <div layout="col center g3">
+          <div layout="row center" class="size:12 bg:surface-sunken r:md">
+            <div class="px:2 py:1 bg:text c:surface r:md t:xs anim:slide-up">New</div>
+          </div>
+          <code class="t:xs">slide-up</code>
+        </div>
+
+        <!-- Shake -->
+        <div layout="col center g3">
+          <div layout="row center" class="size:12 bg:surface-sunken r:md">
+            <div class="px:2 py:1 bg:danger-subtle c:danger r:md t:xs fw:500 anim:shake">Err</div>
+          </div>
+          <code class="t:xs">shake</code>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="p:4 bg:surface r:lg b:1 bc:border">
+      <p class="t:sm c:text-muted"><strong class="fw:500 c:text">Tip:</strong> Toggle <strong class="fw:500">Reduce Motion</strong> in theme controls. All animations pause via the <code>--anim-state</code> token.</p>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       BASE SIZE (--base-size) DEMO
+       ================================================================ -->
+  <section layout="container" class="py:12 demo-section" id="base-size">
+    <div class="mb:8">
+      <h2 class="t:lg fw:600 c:text">Base Size Scaling</h2>
+      <p class="t:sm c:text-muted mt:1">The <code>--base-size</code> token controls the root <code>font-size</code>. Since all values use <code>rem</code>, changing it scales the entire framework.</p>
+    </div>
+
+    <div class="p:6 bg:surface r:lg b:1 bc:border mb:4">
+      <div layout="row center-between wrap g4" class="mb:4">
+        <div>
+          <h3 class="t:sm fw:600 c:text">Adjust Base Size</h3>
+          <p class="t:xs c:text-muted mt:1">Current: <code id="base-size-display">100%</code> (1rem = <code id="base-size-px">16px</code>)</p>
+        </div>
+        <div layout="row g2">
+          <button id="base-75" class="px:3 py:1 t:xs bg:surface c:text r:md b:1 bc:border-subtle tr:colors :hover>bg:neutral-2 fw:500 ff:mono">75%</button>
+          <button id="base-87" class="px:3 py:1 t:xs bg:surface c:text r:md b:1 bc:border-subtle tr:colors :hover>bg:neutral-2 fw:500 ff:mono">87.5%</button>
+          <button id="base-100" class="px:3 py:1 t:xs bg:text c:surface r:md tr:colors :hover>o:90 fw:500 ff:mono">100%</button>
+          <button id="base-112" class="px:3 py:1 t:xs bg:surface c:text r:md b:1 bc:border-subtle tr:colors :hover>bg:neutral-2 fw:500 ff:mono">112.5%</button>
+          <button id="base-125" class="px:3 py:1 t:xs bg:surface c:text r:md b:1 bc:border-subtle tr:colors :hover>bg:neutral-2 fw:500 ff:mono">125%</button>
+        </div>
+      </div>
+
+      <!-- Preview card that shows how everything scales -->
+      <div class="p:6 bg:surface-sunken r:md b:1 bc:border-subtle base-size-preview">
+        <h4 class="t:base fw:600 c:text mb:2">Preview Card</h4>
+        <p class="t:sm c:text-muted mb:4 lh:relaxed">
+          This entire card — text, padding, spacing, border-radius — scales with <code>--base-size</code>. All values are defined in <code>rem</code>, so changing the root font size scales everything proportionally.
+        </p>
+        <div layout="row g2 wrap">
+          <button class="px:4 py:2 bg:text c:surface r:md fw:500 t:sm tr:colors :hover>o:90">Button</button>
+          <button class="px:4 py:2 bg:surface c:text r:md fw:500 t:sm b:1 bc:border tr:colors :hover>bg:neutral-2">Outline</button>
+          <span class="px:2 py:1 t:xs fw:500 bg:text c:surface r:full">Badge</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">:root {
+      --base-size: 100%; /* default: 1rem = 16px */
+      --base-size: 112.5%; /* larger: 1rem = 18px */
+      --base-size: 87.5%; /* smaller: 1rem = 14px */
+      }</div>
+  </section>
+
+
+  <!-- ================================================================
+       SCOPED THEME DEMO
+       ================================================================ -->
+  <section layout="container" class="py:12 demo-section">
+    <div class="mb:8">
+      <h2 class="t:lg fw:600 c:text">Scoped Themes</h2>
+      <p class="t:sm c:text-muted mt:1"><code>data-theme</code> on any element creates a theme island.</p>
+    </div>
+
+    <div layout="grid cols-1 @md:cols-2 g4">
+      <div class="p:6 bg:surface r:lg b:1 bc:border">
+        <h4 class="t:sm fw:600 c:text mb:1">Inherited Theme</h4>
+        <p class="t:sm c:text-muted mb:4">This card follows whatever theme is active on the page.</p>
+        <div layout="row g2">
+          <button class="px:3 py:1 t:xs bg:text c:surface r:md fw:500 tr:colors :hover>o:90">Button</button>
+          <span class="px:2 py:1 t:xs fw:500 bg:surface-sunken c:text-muted r:md b:1 bc:border-subtle">Badge</span>
+        </div>
+      </div>
+
+      <div data-theme="dark" class="p:6 bg:surface r:lg b:1 bc:border">
+        <h4 class="t:sm fw:600 c:text mb:1">Always Dark</h4>
+        <p class="t:sm c:text-muted mb:4">This card has <code>data-theme="dark"</code> and stays dark regardless.</p>
+        <div layout="row g2">
+          <button class="px:3 py:1 t:xs bg:text c:surface r:md fw:500 tr:colors :hover>o:90">Button</button>
+          <span class="px:2 py:1 t:xs fw:500 bg:surface-sunken c:text-muted r:md b:1 bc:border-subtle">Badge</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       FOOTER
+       ================================================================ -->
+  <footer layout="container" class="py:6 bt:1 bc:border-subtle">
+    <div layout="row center-between wrap g4">
+      <span class="t:xs c:text-muted">Baseline CSS v0.1.0 — MIT License</span>
+      <div layout="row g4">
+        <a href="#" class="t:xs c:text-muted td:none :hover>c:text">GitHub</a>
+        <a href="#" class="t:xs c:text-muted td:none :hover>c:text">Docs</a>
+        <a href="#" class="t:xs c:text-muted td:none :hover>c:text">NPM</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ================================================================
+       SCRIPTS (CSP-compliant — no inline handlers)
+       ================================================================ -->
+  <script>
+    const root = document.documentElement;
+    const activeThemes = new Set();
+
+    // --- Theme System ---
+
+    // Detect system dark preference on load
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      activeThemes.add('dark');
+    }
+    applyThemes();
+
+    // Theme toggle buttons (wired via data attributes, not inline handlers)
+    document.querySelectorAll('[data-theme-btn]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        toggleTheme(btn.getAttribute('data-theme-btn'));
+      });
+    });
+
+    document.getElementById('reset-themes').addEventListener('click', resetThemes);
+    document.getElementById('theme-toggle').addEventListener('click', () => toggleTheme('dark'));
+
+    function toggleTheme(theme) {
+      if (activeThemes.has(theme)) {
+        activeThemes.delete(theme);
+      } else {
+        activeThemes.add(theme);
+      }
+      applyThemes();
+    }
+
+    function resetThemes() {
+      activeThemes.clear();
+      applyThemes();
+    }
+
+    function applyThemes() {
+      root.dataset.theme = [...activeThemes].join(' ');
+
+      // Update current theme display
+      const themeStr = root.dataset.theme;
+      document.getElementById('current-theme').textContent =
+        themeStr || 'light (default)';
+
+      // Update nav toggle text
+      const darkBtn = document.getElementById('theme-toggle');
+      if (darkBtn) {
+        darkBtn.textContent = activeThemes.has('dark') ? 'Light' : 'Dark';
+      }
+
+      // Update theme-color meta for mobile browsers
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) {
+        meta.content = activeThemes.has('dark') ? '#09090b' : '#ffffff';
+      }
+
+      // Highlight active theme buttons
+      document.querySelectorAll('[data-theme-btn]').forEach(btn => {
+        const t = btn.getAttribute('data-theme-btn');
+        btn.classList.toggle('theme-active', activeThemes.has(t));
+      });
+    }
+
+
+    // --- Base Size Controls ---
+
+    const baseSizes = {
+      'base-75': { pct: '75%', px: '12px' },
+      'base-87': { pct: '87.5%', px: '14px' },
+      'base-100': { pct: '100%', px: '16px' },
+      'base-112': { pct: '112.5%', px: '18px' },
+      'base-125': { pct: '125%', px: '20px' },
+    };
+
+    const baseBtns = document.querySelectorAll('[id^="base-"]');
+    baseBtns.forEach(btn => {
+      if (!baseSizes[btn.id]) return;
+      btn.addEventListener('click', () => setBaseSize(btn.id));
+    });
+
+    function setBaseSize(id) {
+      const size = baseSizes[id];
+      if (!size) return;
+
+      root.style.setProperty('--base-size', size.pct);
+      document.getElementById('base-size-display').textContent = size.pct;
+      document.getElementById('base-size-px').textContent = size.px;
+
+      // Update active button styling
+      baseBtns.forEach(b => {
+        if (!baseSizes[b.id]) return;
+        if (b.id === id) {
+          b.className = b.className
+            .replace('bg:surface', 'bg:text')
+            .replace('c:text', 'c:surface')
+            .replace('b:1 bc:border-subtle', '')
+            .replace(':hover>bg:neutral-2', ':hover>o:90');
+        } else {
+          // Reset to default outline style
+          if (!b.className.includes('bg:surface')) {
+            b.className = b.className
+              .replace('bg:text', 'bg:surface')
+              .replace('c:surface', 'c:text')
+              .replace(':hover>o:90', ':hover>bg:neutral-2');
+            if (!b.className.includes('b:1')) {
+              b.className += ' b:1 bc:border-subtle';
+            }
+          }
+        }
+      });
+    }
+  </script>
+
+</body>
+
+</html>
