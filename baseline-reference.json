@@ -1,0 +1,1285 @@
+{
+  "framework": "Baseline CSS",
+  "version": "0.2.0",
+  "description": "Zero-build, CSS-native utility framework. Single static stylesheet, no processing needed. CSP-compliant, themeable, accessible.",
+  "file": "baseline.css",
+  "stats": {
+    "lines": 3151,
+    "size_raw": "146KB",
+    "size_gzipped": "24KB",
+    "utility_classes": 1758,
+    "state_variant_types": 25
+  },
+
+  "syntax": {
+    "class_pattern": "domain:value",
+    "separator": ":",
+    "html_usage": "class=\"text:lg font:bold color:primary\"",
+    "css_selector": ".text\\:lg { font-size: var(--text-lg); }",
+    "responsive_prefix": "@{breakpoint}:utility",
+    "responsive_example": "class=\"text:base @md:text:lg @lg:text:2xl\"",
+    "state_prefix": "{state}:utility",
+    "state_example": "class=\"bg:primary hover:bg transition:colors\"",
+    "group_pattern": "Add class=\"group\" to parent, use group-hover:* on children",
+    "peer_pattern": "Add class=\"peer\" to sibling, use peer-checked:* on following siblings",
+    "has_pattern": "Use has-checked:* on parent to style based on descendant state (CSS :has())",
+    "layout_attribute": "Use layout=\"tokens\" attribute for structural composition",
+    "layout_example": "<div layout=\"row center g4 wrap @md:cols-3\">",
+    "standalone_keywords": "Some utilities are standalone keywords without prefix: italic, uppercase, underline, truncate, hidden, block, flex, grid, relative, absolute, etc."
+  },
+
+  "design_tokens": {
+    "spacing_scale": {
+      "description": "Base unit: 0.25rem (4px). Used by padding, margin, gap, width, height, inset, translate, indent, size.",
+      "values": {
+        "0": "0",
+        "px": "1px",
+        "0.5": "0.125rem",
+        "1": "0.25rem",
+        "1.5": "0.375rem",
+        "2": "0.5rem",
+        "2.5": "0.625rem",
+        "3": "0.75rem",
+        "3.5": "0.875rem",
+        "4": "1rem",
+        "5": "1.25rem",
+        "6": "1.5rem",
+        "7": "1.75rem",
+        "8": "2rem",
+        "9": "2.25rem",
+        "10": "2.5rem",
+        "11": "2.75rem",
+        "12": "3rem",
+        "14": "3.5rem",
+        "16": "4rem",
+        "20": "5rem",
+        "24": "6rem",
+        "28": "7rem",
+        "32": "8rem",
+        "36": "9rem",
+        "40": "10rem",
+        "44": "11rem",
+        "48": "12rem",
+        "52": "13rem",
+        "56": "14rem",
+        "60": "15rem",
+        "64": "16rem",
+        "72": "18rem",
+        "80": "20rem",
+        "96": "24rem"
+      }
+    },
+
+    "colors": {
+      "description": "Semantic color system. Each primary color has base, hover, active, and subtle variants. Dark theme inverts automatically.",
+      "semantic": {
+        "primary": "Brand blue — buttons, links, CTAs",
+        "secondary": "Supporting purple — secondary actions",
+        "accent": "Complementary green — highlights",
+        "success": "Positive feedback — confirmations, valid states",
+        "warning": "Caution feedback — warnings, attention",
+        "danger": "Negative feedback — errors, destructive actions",
+        "info": "Informational — notices, tips"
+      },
+      "surfaces": {
+        "surface": "Default page background",
+        "surface-raised": "Cards, elevated elements",
+        "surface-sunken": "Inset areas, code blocks",
+        "surface-overlay": "Modals, popovers"
+      },
+      "text": {
+        "text": "Primary body text",
+        "text-muted": "Secondary/supporting text",
+        "text-faint": "Placeholder, disabled text",
+        "text-inverse": "Text on dark backgrounds"
+      },
+      "borders": {
+        "border": "Default border color",
+        "border-subtle": "Light borders, dividers",
+        "border-strong": "Emphasized borders"
+      },
+      "neutrals": "neutral-1 (lightest) through neutral-9 (darkest). In dark mode, scale inverts.",
+      "special": ["white", "black", "transparent", "current", "inherit"]
+    },
+
+    "typography": {
+      "sizes": {
+        "xs": "0.75rem (12px)",
+        "sm": "0.875rem (14px)",
+        "base": "1rem (16px)",
+        "lg": "1.125rem (18px)",
+        "xl": "1.25rem (20px)",
+        "2xl": "1.5rem (24px)",
+        "3xl": "1.875rem (30px)",
+        "4xl": "2.25rem (36px)",
+        "5xl": "3rem (48px)",
+        "6xl": "3.75rem (60px)",
+        "7xl": "4.5rem (72px)",
+        "8xl": "6rem (96px)",
+        "9xl": "8rem (128px)"
+      },
+      "weights": {
+        "named": {
+          "thin": 100, "extralight": 200, "light": 300, "normal": 400,
+          "medium": 500, "semibold": 600, "bold": 700, "extrabold": 800, "black": 900
+        },
+        "numeric": [100, 200, 300, 400, 500, 600, 700, 800, 900]
+      },
+      "families": ["sans", "serif", "mono"],
+      "line_heights": {
+        "named": { "none": 1, "tight": 1.25, "snug": 1.375, "normal": 1.5, "relaxed": 1.625, "loose": 2 },
+        "numeric": [3, 4, 5, 6, 7, 8, 9, 10]
+      },
+      "letter_spacing": ["tighter", "tight", "normal", "wide", "wider", "widest"]
+    },
+
+    "shadows": {
+      "description": "Each shadow level auto-sets --_sh-hover to the next level for hover elevation.",
+      "values": ["none", "xs", "sm", "md", "lg", "xl", "2xl"]
+    },
+
+    "border_radius": {
+      "values": {
+        "none": "0",
+        "xs": "0.125rem (2px)",
+        "sm": "0.25rem (4px)",
+        "md": "0.375rem (6px)",
+        "lg": "0.5rem (8px)",
+        "xl": "0.75rem (12px)",
+        "2xl": "1rem (16px)",
+        "3xl": "1.5rem (24px)",
+        "full": "9999px (pill)"
+      }
+    },
+
+    "breakpoints": {
+      "sm": "640px (40rem)",
+      "md": "768px (48rem)",
+      "lg": "1024px (64rem)",
+      "xl": "1280px (80rem)",
+      "2xl": "1536px (96rem)"
+    },
+
+    "z_index": {
+      "semantic": {
+        "base": 0, "raised": 10, "dropdown": 100,
+        "sticky": 200, "overlay": 300, "modal": 400, "toast": 500
+      },
+      "numeric": [0, 10, 20, 30, 40, 50, "auto"]
+    },
+
+    "containers": {
+      "sm": "40rem (640px)",
+      "md": "48rem (768px)",
+      "lg": "64rem (1024px)",
+      "xl": "80rem (1280px)",
+      "2xl": "96rem (1536px)"
+    }
+  },
+
+  "themes": {
+    "usage": "<html data-theme=\"dark\"> or <html data-theme=\"dark high-contrast large-text\">",
+    "available": {
+      "dark": "Inverts all color tokens for dark backgrounds. Also auto-activates via @media (prefers-color-scheme: dark).",
+      "high-contrast": "Extreme contrast ratios. Composable with dark.",
+      "large-text": "Scales up all typography tokens.",
+      "reduce-motion": "Sets all durations to 0ms, pauses animations. Also respects @media (prefers-reduced-motion: reduce)."
+    },
+    "composable": true,
+    "composable_example": "data-theme=\"dark high-contrast reduce-motion\""
+  },
+
+  "layout_attribute": {
+    "description": "Structural composition via the layout HTML attribute. Space-separated tokens.",
+    "usage": "<div layout=\"row center g4 wrap\">",
+    "tokens": {
+      "direction": {
+        "row": "display: flex; flex-direction: row",
+        "col": "display: flex; flex-direction: column",
+        "grid": "display: grid",
+        "inline": "display: inline-flex",
+        "hidden": "display: none"
+      },
+      "alignment": {
+        "description": "Compound tokens that set both align-items and justify-content.",
+        "center": "center center",
+        "center-between": "center space-between",
+        "center-around": "center space-around",
+        "center-evenly": "center space-evenly",
+        "center-start": "center flex-start",
+        "center-end": "center flex-end",
+        "start": "flex-start flex-start",
+        "start-between": "flex-start space-between",
+        "start-center": "flex-start center",
+        "end": "flex-end flex-end",
+        "end-between": "flex-end space-between",
+        "end-center": "flex-end center",
+        "stretch": "stretch",
+        "stretch-between": "stretch space-between",
+        "baseline": "baseline"
+      },
+      "wrap": ["wrap", "nowrap"],
+      "gap": ["g0", "g0.5", "g1", "g1.5", "g2", "g3", "g4", "g5", "g6", "g8", "g10", "g12", "g16"],
+      "grid_columns": ["cols-1", "cols-2", "cols-3", "cols-4", "cols-5", "cols-6", "cols-12", "cols-auto"],
+      "grid_span": ["span-2", "span-3", "span-4", "span-6", "span-full"],
+      "flex_child": ["fill", "grow", "shrink-0", "self-start", "self-center", "self-end", "self-stretch"],
+      "container": ["container", "container-sm", "container-md", "container-lg"],
+      "position": ["relative", "absolute", "fixed", "sticky"],
+      "overflow": ["clip", "scroll", "scroll-x", "scroll-y"]
+    },
+    "responsive": {
+      "description": "Layout attribute supports responsive tokens at all breakpoints.",
+      "example": "<div layout=\"col @md:row center-between g4 @lg:g8\">",
+      "pattern": "@{breakpoint}:{token}"
+    }
+  },
+
+  "utilities": {
+    "_note": "Complete reference of all utility classes organized by prefix. Use class=\"prefix:value\" in HTML. Standalone classes have no prefix.",
+
+    "display": {
+      "description": "Control element display type. Standalone keywords (no prefix).",
+      "css_property": "display",
+      "standalone_classes": ["hidden", "block", "inline-block", "inline", "flex", "inline-flex", "grid", "inline-grid", "contents", "flow-root", "list-item"]
+    },
+
+    "position": {
+      "description": "Position scheme. Standalone keywords.",
+      "css_property": "position",
+      "standalone_classes": ["static", "relative", "absolute", "fixed", "sticky"]
+    },
+
+    "visibility": {
+      "description": "Element visibility. Standalone keywords.",
+      "css_property": "visibility",
+      "standalone_classes": ["visible", "invisible", "collapse"],
+      "also": "isolate (isolation: isolate)"
+    },
+
+    "box": {
+      "prefix": "box",
+      "description": "Box sizing model.",
+      "css_property": "box-sizing",
+      "values": ["border", "content"]
+    },
+
+    "overflow": {
+      "prefix": "overflow",
+      "description": "Content overflow behavior.",
+      "css_property": "overflow",
+      "values": ["auto", "hidden", "visible", "scroll", "clip"],
+      "axis_variants": {
+        "overflow-x": ["auto", "hidden", "scroll", "clip"],
+        "overflow-y": ["auto", "hidden", "scroll", "clip"]
+      }
+    },
+
+    "float": {
+      "prefix": "float",
+      "css_property": "float",
+      "values": ["left", "right", "none"]
+    },
+
+    "clear": {
+      "prefix": "clear",
+      "css_property": "clear",
+      "values": ["left", "right", "both", "none"]
+    },
+
+    "object": {
+      "prefix": "object",
+      "description": "Object fit and position for replaced elements (img, video).",
+      "values": {
+        "fit": ["contain", "cover", "fill", "none", "scale-down"],
+        "position": ["center", "top", "bottom", "left", "right"]
+      },
+      "note": "Fit values set object-fit; position values set object-position."
+    },
+
+    "inset": {
+      "prefix": "inset / top / right / bottom / left",
+      "description": "Position offset values. Used with position utilities.",
+      "variants": {
+        "inset": ["0", "auto"],
+        "inset-x": ["0"],
+        "inset-y": ["0"],
+        "top": ["0", "auto", "1", "2", "4", "6", "8", "full"],
+        "right": ["0", "auto", "1", "2", "4", "full"],
+        "bottom": ["0", "auto", "1", "2", "4", "full"],
+        "left": ["0", "auto", "1", "2", "4", "full"],
+        "-top": ["1", "2", "4"],
+        "-left": ["1", "2"]
+      },
+      "note": "Prefix with - for negative values: -top:2 → top: -0.5rem"
+    },
+
+    "z": {
+      "prefix": "z",
+      "description": "Z-index stacking order.",
+      "css_property": "z-index",
+      "values": {
+        "numeric": ["0", "10", "20", "30", "40", "50", "auto"],
+        "semantic": ["base", "raised", "dropdown", "sticky", "overlay", "modal", "toast"]
+      }
+    },
+
+    "aspect": {
+      "prefix": "aspect",
+      "description": "Aspect ratio.",
+      "css_property": "aspect-ratio",
+      "values": ["auto", "square", "video", "photo"],
+      "details": { "square": "1:1", "video": "16:9", "photo": "4:3" }
+    },
+
+    "p": {
+      "prefix": "p / px / py / pt / pb / ps / pe",
+      "description": "Padding. All directions use spacing scale tokens.",
+      "css_property": "padding / padding-inline / padding-block / etc.",
+      "variants": {
+        "p": { "description": "All sides", "values": ["0", "px", "0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "5", "6", "7", "8", "9", "10", "11", "12", "14", "16", "20", "24"] },
+        "px": { "description": "Horizontal (inline)", "values": ["0", "px", "0.5", "1", "1.5", "2", "2.5", "3", "4", "5", "6", "8", "10", "12", "16", "20", "24"] },
+        "py": { "description": "Vertical (block)", "values": ["0", "px", "0.5", "1", "1.5", "2", "2.5", "3", "4", "5", "6", "8", "10", "12", "16", "20", "24"] },
+        "pt": { "description": "Top (block-start)", "values": ["0", "px", "0.5", "1", "1.5", "2", "3", "4", "5", "6", "8", "10", "12", "16", "20", "24"] },
+        "pb": { "description": "Bottom (block-end)", "values": ["0", "px", "0.5", "1", "1.5", "2", "3", "4", "5", "6", "8", "10", "12", "16", "20", "24"] },
+        "ps": { "description": "Start (inline-start)", "values": ["0", "1", "2", "3", "4", "5", "6", "8", "10", "12", "16"] },
+        "pe": { "description": "End (inline-end)", "values": ["0", "1", "2", "3", "4", "5", "6", "8", "10", "12", "16"] }
+      }
+    },
+
+    "m": {
+      "prefix": "m / mx / my / mt / mb / ms / me",
+      "description": "Margin. Supports auto and negative values.",
+      "css_property": "margin / margin-inline / margin-block / etc.",
+      "variants": {
+        "m": { "values": ["0", "px", "0.5", "1", "1.5", "2", "2.5", "3", "4", "5", "6", "8", "10", "12", "16", "20", "24", "auto"] },
+        "mx": { "values": ["0", "px", "0.5", "1", "2", "3", "4", "5", "6", "8", "10", "12", "16", "auto"] },
+        "my": { "values": ["0", "px", "0.5", "1", "2", "3", "4", "5", "6", "8", "10", "12", "16", "auto"] },
+        "mt": { "values": ["0", "px", "0.5", "1", "1.5", "2", "3", "4", "5", "6", "8", "10", "12", "16", "20", "24", "auto"] },
+        "mb": { "values": ["0", "px", "0.5", "1", "1.5", "2", "3", "4", "5", "6", "8", "10", "12", "16", "20", "24", "auto"] },
+        "ms": { "values": ["0", "1", "2", "3", "4", "5", "6", "8", "10", "12", "auto"] },
+        "me": { "values": ["0", "1", "2", "3", "4", "5", "6", "8", "10", "12", "auto"] }
+      },
+      "negative_variants": {
+        "-m": ["1", "2", "4", "8"],
+        "-mt": ["1", "2", "4", "8"],
+        "-mb": ["1", "2", "4"],
+        "-mx": ["1", "2", "4"],
+        "-ms": ["1", "2"],
+        "-me": ["1", "2"]
+      }
+    },
+
+    "gap": {
+      "prefix": "gap / gap-x / gap-y",
+      "description": "Gap between flex/grid children.",
+      "css_property": "gap / column-gap / row-gap",
+      "variants": {
+        "gap": ["0", "px", "0.5", "1", "1.5", "2", "2.5", "3", "4", "5", "6", "8", "10", "12", "16", "20"],
+        "gap-x": ["0", "1", "2", "3", "4", "5", "6", "8", "10", "12", "16"],
+        "gap-y": ["0", "1", "2", "3", "4", "5", "6", "8", "10", "12", "16"]
+      }
+    },
+
+    "space": {
+      "prefix": "space-x / space-y",
+      "description": "Space between children using > * + * margin. Alternative to gap.",
+      "variants": {
+        "space-x": ["0", "1", "2", "3", "4", "6", "8"],
+        "space-y": ["0", "1", "2", "3", "4", "6", "8"]
+      }
+    },
+
+    "w": {
+      "prefix": "w / min-w / max-w",
+      "description": "Width, min-width, max-width.",
+      "variants": {
+        "w": {
+          "spacing": ["0", "px", "1", "2", "3", "4", "5", "6", "8", "10", "12", "16", "20", "24", "32", "40", "48", "56", "64", "72", "80", "96"],
+          "keyword": ["auto", "full", "screen", "svw", "dvw", "min", "max", "fit"],
+          "fraction": ["1/2", "1/3", "2/3", "1/4", "3/4", "1/5", "2/5", "3/5", "4/5", "1/6", "5/6"]
+        },
+        "min-w": ["0", "full", "min", "max", "fit"],
+        "max-w": ["none", "xs", "sm", "md", "lg", "xl", "2xl", "full", "prose"]
+      }
+    },
+
+    "h": {
+      "prefix": "h / min-h / max-h",
+      "description": "Height, min-height, max-height.",
+      "variants": {
+        "h": {
+          "spacing": ["0", "px", "1", "2", "3", "4", "5", "6", "8", "10", "12", "16", "20", "24", "32", "40", "48", "56", "64", "72", "80", "96"],
+          "keyword": ["auto", "full", "screen", "svh", "lvh", "min", "max", "fit"],
+          "fraction": ["1/2", "1/3", "2/3"]
+        },
+        "min-h": ["0", "full", "screen", "svh", "min", "fit"],
+        "max-h": ["none", "full", "screen", "svh", "min", "fit"]
+      }
+    },
+
+    "size": {
+      "prefix": "size",
+      "description": "Sets both width and height simultaneously.",
+      "values": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "12", "14", "16", "20", "24", "32", "40", "48", "full", "min", "max", "fit"]
+    },
+
+    "text": {
+      "prefix": "text",
+      "description": "Font size. Uses typography scale tokens.",
+      "css_property": "font-size",
+      "values": ["xs", "sm", "base", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl", "8xl", "9xl"]
+    },
+
+    "font": {
+      "prefix": "font",
+      "description": "Font weight AND font family. Prefix is shared — values never overlap (weights are thin/bold/600, families are sans/serif/mono).",
+      "values": {
+        "weight_named": ["thin", "extralight", "light", "normal", "medium", "semibold", "bold", "extrabold", "black"],
+        "weight_numeric": ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+        "family": ["sans", "serif", "mono"]
+      },
+      "note": "font:bold sets font-weight. font:mono sets font-family. No ambiguity because weight names and family names are distinct sets."
+    },
+
+    "leading": {
+      "prefix": "leading",
+      "description": "Line height.",
+      "css_property": "line-height",
+      "values": {
+        "named": ["none", "tight", "snug", "normal", "relaxed", "loose"],
+        "numeric": ["3", "4", "5", "6", "7", "8", "9", "10"]
+      }
+    },
+
+    "tracking": {
+      "prefix": "tracking",
+      "description": "Letter spacing.",
+      "css_property": "letter-spacing",
+      "values": ["tighter", "tight", "normal", "wide", "wider", "widest"]
+    },
+
+    "align": {
+      "prefix": "align",
+      "description": "Text alignment.",
+      "css_property": "text-align",
+      "values": ["left", "center", "right", "justify", "start", "end"]
+    },
+
+    "text_decoration": {
+      "description": "Text decoration utilities. Standalone keywords + prefix variants.",
+      "standalone": ["underline", "overline", "line-through", "no-underline"],
+      "decoration_prefix": {
+        "style": ["solid", "dashed", "dotted", "double", "wavy"],
+        "thickness": ["0", "1", "2", "4", "auto", "from-font"],
+        "color": ["primary", "secondary", "accent", "success", "danger", "current", "transparent"]
+      },
+      "underline-offset": ["0", "1", "2", "4", "8", "auto"]
+    },
+
+    "text_transform": {
+      "description": "Text transform. Standalone keywords.",
+      "standalone": ["uppercase", "lowercase", "capitalize", "normal-case"]
+    },
+
+    "font_style": {
+      "description": "Font style. Standalone keywords.",
+      "standalone": ["italic", "not-italic"]
+    },
+
+    "text_overflow": {
+      "description": "Text overflow and line clamping.",
+      "standalone": ["truncate", "text-ellipsis", "text-clip"],
+      "line-clamp": ["1", "2", "3", "4", "5", "6", "none"]
+    },
+
+    "whitespace": {
+      "prefix": "whitespace",
+      "css_property": "white-space",
+      "values": ["normal", "nowrap", "pre", "pre-line", "pre-wrap", "break-spaces"]
+    },
+
+    "break": {
+      "prefix": "break",
+      "description": "Word break and overflow wrap.",
+      "values": ["normal", "words", "all", "keep"]
+    },
+
+    "hyphens": {
+      "prefix": "hyphens",
+      "css_property": "hyphens",
+      "values": ["none", "manual", "auto"]
+    },
+
+    "text-wrap": {
+      "prefix": "text-wrap",
+      "css_property": "text-wrap",
+      "values": ["wrap", "nowrap", "balance", "pretty"]
+    },
+
+    "indent": {
+      "prefix": "indent",
+      "description": "Text indent using spacing scale.",
+      "css_property": "text-indent",
+      "values": ["0", "1", "2", "4", "8"]
+    },
+
+    "valign": {
+      "prefix": "valign",
+      "css_property": "vertical-align",
+      "values": ["baseline", "top", "middle", "bottom", "text-top", "text-bottom", "sub", "super"]
+    },
+
+    "font_variant_numeric": {
+      "description": "Font variant numeric. Standalone keywords.",
+      "standalone": ["tabular-nums", "proportional-nums", "lining-nums", "oldstyle-nums", "slashed-zero", "ordinal", "normal-nums"]
+    },
+
+    "content_pseudo": {
+      "prefix": "content",
+      "description": "Content for ::before/::after pseudo-elements.",
+      "values": ["none", "empty"]
+    },
+
+    "list": {
+      "prefix": "list",
+      "description": "List style type and position.",
+      "values": {
+        "type": ["none", "disc", "decimal"],
+        "position": ["inside", "outside"]
+      }
+    },
+
+    "color": {
+      "prefix": "color",
+      "description": "Text color.",
+      "css_property": "color",
+      "values": ["text", "text-muted", "text-faint", "text-inverse", "primary", "secondary", "accent", "success", "warning", "danger", "info", "surface", "inherit", "current", "transparent", "white", "black", "neutral-1", "neutral-2", "neutral-3", "neutral-4", "neutral-5", "neutral-6", "neutral-7", "neutral-8", "neutral-9"]
+    },
+
+    "bg": {
+      "prefix": "bg",
+      "description": "Background color. Semantic colors (primary, secondary, etc.) auto-set private state variables (--_bg-hover, --_bg-active, --_ring) enabling generic hover:bg, active:bg, and focus:ring to work automatically.",
+      "css_property": "background-color",
+      "values": ["primary", "primary-subtle", "secondary", "secondary-subtle", "accent", "accent-subtle", "success", "success-subtle", "warning", "warning-subtle", "danger", "danger-subtle", "info", "info-subtle", "surface", "surface-raised", "surface-sunken", "surface-overlay", "text", "transparent", "white", "black", "inherit", "current", "neutral-1", "neutral-2", "neutral-3", "neutral-4", "neutral-5", "neutral-6", "neutral-7", "neutral-8", "neutral-9"],
+      "smart_hover": "When you use bg:primary and hover:bg together, the hover color is automatically the darker primary-hover shade. No need to specify hover:bg:primary-hover explicitly."
+    },
+
+    "border": {
+      "prefix": "border",
+      "description": "Border width, color, and style. All share the border: prefix. Values never overlap — numbers are width, color names are color, style names are style.",
+      "width": {
+        "all": ["0", "1", "2", "4"],
+        "note": "border:1 = 1px solid var(--border). Includes solid style and default color."
+      },
+      "directional_width": {
+        "border-t": ["0", "1", "2"],
+        "border-b": ["0", "1", "2"],
+        "border-s": ["0", "1", "2"],
+        "border-e": ["0", "1", "2"],
+        "border-x": ["0", "1", "2"],
+        "border-y": ["0", "1", "2"]
+      },
+      "color": ["border", "border-subtle", "border-strong", "primary", "secondary", "accent", "success", "warning", "danger", "info", "text", "transparent", "white", "black", "current", "inherit", "neutral-1", "neutral-2", "neutral-3", "neutral-4", "neutral-5", "neutral-6", "neutral-7", "neutral-8", "neutral-9"],
+      "style": ["solid", "dashed", "dotted", "double", "hidden", "none"]
+    },
+
+    "rounded": {
+      "prefix": "rounded",
+      "description": "Border radius.",
+      "css_property": "border-radius",
+      "all_sides": ["none", "xs", "sm", "md", "lg", "xl", "2xl", "3xl", "full"],
+      "directional": {
+        "rounded-t": ["none", "sm", "md", "lg", "xl", "full"],
+        "rounded-b": ["none", "sm", "md", "lg", "xl", "full"],
+        "rounded-s": ["none", "sm", "md", "lg", "full"],
+        "rounded-e": ["none", "sm", "md", "lg", "full"],
+        "rounded-tl": ["none", "sm", "md", "lg", "full"],
+        "rounded-tr": ["none", "sm", "md", "lg", "full"],
+        "rounded-bl": ["none", "sm", "md", "lg", "full"],
+        "rounded-br": ["none", "sm", "md", "lg", "full"]
+      }
+    },
+
+    "divide": {
+      "prefix": "divide-x / divide-y / divide",
+      "description": "Border between children using > * + * selectors.",
+      "values": {
+        "divide-x": ["0", "1", "2"],
+        "divide-y": ["0", "1", "2"],
+        "divide (color)": ["primary", "neutral-2", "neutral-3", "transparent"]
+      }
+    },
+
+    "outline": {
+      "prefix": "outline / outline-offset",
+      "description": "Outline styles.",
+      "values": {
+        "outline": {
+          "special": ["none", "hidden"],
+          "width": ["0", "1", "2", "4"],
+          "style": ["solid", "dashed", "dotted"],
+          "color": ["primary", "danger", "current"]
+        },
+        "outline-offset": ["0", "1", "2", "4"]
+      }
+    },
+
+    "ring": {
+      "prefix": "ring",
+      "description": "Focus ring using box-shadow. ring:{n} for width, ring:{color} for color.",
+      "values": {
+        "width": ["0", "1", "2", "3", "4"],
+        "color": ["primary", "secondary", "accent", "success", "warning", "danger", "info"]
+      },
+      "note": "ring:focus is a special utility that applies ring on :focus-visible"
+    },
+
+    "shadow": {
+      "prefix": "shadow",
+      "description": "Box shadow. Each level auto-sets --_sh-hover to the next level, enabling hover:shadow to auto-elevate.",
+      "css_property": "box-shadow",
+      "values": ["none", "xs", "sm", "md", "lg", "xl", "2xl"],
+      "smart_hover": "shadow:md + hover:shadow → hover shadow becomes shadow-lg automatically."
+    },
+
+    "opacity": {
+      "prefix": "opacity",
+      "css_property": "opacity",
+      "values": ["0", "5", "10", "15", "20", "25", "30", "40", "50", "60", "70", "75", "80", "90", "95", "100"]
+    },
+
+    "filters": {
+      "description": "CSS filter utilities.",
+      "prefixes": {
+        "blur": { "values": ["none", "sm", "md", "lg", "xl", "2xl", "3xl"], "css": "filter: blur()" },
+        "brightness": { "values": ["0", "50", "75", "90", "95", "100", "105", "110", "125", "150", "200"], "css": "filter: brightness()" },
+        "contrast": { "values": ["0", "50", "75", "100", "125", "150", "200"], "css": "filter: contrast()" },
+        "saturate": { "values": ["0", "50", "100", "150", "200"], "css": "filter: saturate()" },
+        "hue-rotate": { "values": ["0", "15", "30", "60", "90", "180"], "css": "filter: hue-rotate()" },
+        "drop-shadow": { "values": ["none", "sm", "md", "lg", "xl"], "css": "filter: drop-shadow()" },
+        "backdrop-blur": { "values": ["none", "sm", "md", "lg", "xl", "2xl", "3xl"], "css": "backdrop-filter: blur()" }
+      },
+      "standalone": {
+        "grayscale": "filter: grayscale(100%)",
+        "grayscale:0": "filter: grayscale(0)",
+        "invert": "filter: invert(100%)",
+        "invert:0": "filter: invert(0)",
+        "sepia": "filter: sepia(100%)",
+        "sepia:0": "filter: sepia(0)"
+      }
+    },
+
+    "blend": {
+      "prefix": "mix-blend / bg-blend",
+      "description": "Blend mode utilities.",
+      "values": {
+        "mix-blend": ["normal", "multiply", "screen", "overlay", "darken", "lighten", "difference", "exclusion"],
+        "bg-blend": ["normal", "multiply", "screen", "overlay"]
+      }
+    },
+
+    "flex_utilities": {
+      "prefix": "flex / basis / order / justify / items / content / self",
+      "description": "Flexbox utilities. Supplements layout attribute.",
+      "values": {
+        "flex": ["1", "auto", "initial", "none"],
+        "flex_standalone": ["flex-row", "flex-row-reverse", "flex-col", "flex-col-reverse", "flex-wrap", "flex-wrap-reverse", "flex-nowrap", "grow", "shrink"],
+        "grow": ["0"],
+        "shrink": ["0"],
+        "basis": ["auto", "0", "full", "1/2", "1/3", "2/3", "1/4", "3/4"],
+        "order": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "first", "last", "none"],
+        "justify": ["start", "end", "center", "between", "around", "evenly", "stretch", "normal"],
+        "justify-items": ["start", "end", "center", "stretch"],
+        "justify-self": ["auto", "start", "end", "center", "stretch"],
+        "items": ["start", "end", "center", "baseline", "stretch"],
+        "content": ["start", "end", "center", "between", "around", "evenly", "stretch", "baseline"],
+        "self": ["auto", "start", "end", "center", "stretch", "baseline"],
+        "place-content": ["center", "start", "end", "between", "around", "evenly", "stretch"],
+        "place-items": ["start", "end", "center", "stretch"],
+        "place-self": ["auto", "start", "end", "center", "stretch"]
+      }
+    },
+
+    "grid_utilities": {
+      "prefix": "grid-cols / grid-rows / col-span / col-start / col-end / row-span / row-start / row-end / grid-flow / auto-cols / auto-rows",
+      "description": "CSS Grid utilities. Supplements layout attribute.",
+      "values": {
+        "grid-cols": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "none", "subgrid"],
+        "grid-rows": ["1", "2", "3", "4", "5", "6", "none", "subgrid"],
+        "col-span": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "full"],
+        "col": ["auto"],
+        "col-start": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "auto"],
+        "col-end": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "auto"],
+        "row-span": ["1", "2", "3", "4", "5", "6", "full"],
+        "row": ["auto"],
+        "row-start": ["1", "2", "3", "4", "5", "6", "7", "auto"],
+        "row-end": ["1", "2", "3", "4", "5", "6", "7", "auto"],
+        "grid-flow": ["row", "col", "dense", "row-dense", "col-dense"],
+        "auto-cols": ["auto", "min", "max", "fr"],
+        "auto-rows": ["auto", "min", "max", "fr"]
+      }
+    },
+
+    "table": {
+      "prefix": "table / caption / border-spacing",
+      "description": "Table layout utilities.",
+      "values": {
+        "table": ["auto", "fixed"],
+        "standalone": ["border-collapse", "border-separate"],
+        "caption": ["top", "bottom"],
+        "border-spacing": ["0", "1", "2", "4"]
+      }
+    },
+
+    "transforms": {
+      "description": "Transform utilities.",
+      "prefixes": {
+        "scale": ["0", "50", "75", "90", "95", "98", "100", "102", "105", "110", "125", "150"],
+        "scale-x": ["0", "50", "100", "150"],
+        "scale-y": ["0", "50", "100", "150"],
+        "rotate": ["0", "1", "2", "3", "6", "12", "45", "90", "180"],
+        "-rotate": ["1", "2", "3", "6", "12", "45", "90", "180"],
+        "translate-x": ["0", "0.5", "1", "2", "4", "8", "full", "1/2"],
+        "-translate-x": ["1", "2", "4", "1/2", "full"],
+        "translate-y": ["0", "0.5", "1", "2", "4", "8", "full", "1/2"],
+        "-translate-y": ["1", "2", "4", "1/2", "full"],
+        "skew-x": ["1", "2", "3", "6", "12"],
+        "-skew-x": ["1", "2", "3", "6", "12"],
+        "skew-y": ["1", "2", "3", "6", "12"],
+        "-skew-y": ["1", "2", "3", "6", "12"],
+        "origin": ["center", "top", "top-right", "right", "bottom-right", "bottom", "bottom-left", "left", "top-left"]
+      },
+      "special": {
+        "transform:none": "transform: none",
+        "transform:gpu": "transform: translateZ(0) — GPU compositing layer",
+        "backface:visible": "backface-visibility: visible",
+        "backface:hidden": "backface-visibility: hidden"
+      },
+      "negative_note": "Prefix with - for negative values: -rotate:45 → rotate(-45deg), -translate-x:4 → translateX(-1rem)"
+    },
+
+    "transitions": {
+      "description": "Transition and animation utilities.",
+      "prefixes": {
+        "transition": {
+          "values": ["none", "all", "colors", "opacity", "shadow", "transform"],
+          "note": "transition:colors transitions color, background-color, border-color, fill, stroke simultaneously."
+        },
+        "duration": ["0", "75", "100", "150", "200", "300", "500", "700", "1000"],
+        "ease": ["linear", "in", "out", "in-out"],
+        "delay": ["0", "75", "100", "150", "200", "300", "500", "700", "1000"],
+        "animate": {
+          "values": ["none", "spin", "pulse", "bounce", "fade-in", "slide-up", "slide-down", "shake"],
+          "note": "Animations respect prefers-reduced-motion and data-theme=\"reduce-motion\"."
+        }
+      }
+    },
+
+    "interactivity": {
+      "description": "User interaction utilities.",
+      "prefixes": {
+        "cursor": ["auto", "default", "pointer", "wait", "text", "move", "help", "not-allowed", "none", "grab", "grabbing", "crosshair", "col-resize", "row-resize", "zoom-in", "zoom-out"],
+        "select": ["none", "text", "all", "auto"],
+        "pointer": ["none", "auto"],
+        "resize": ["none", "both", "x", "y"],
+        "scroll": ["auto", "smooth"],
+        "touch": ["auto", "none", "pan-x", "pan-y", "manipulation", "pinch-zoom"],
+        "appearance": ["none", "auto"],
+        "will-change": ["auto", "scroll", "contents", "transform"],
+        "accent": ["auto", "primary", "secondary", "accent", "success", "danger"],
+        "caret": ["primary", "transparent", "current"],
+        "snap": {
+          "type": ["none", "x", "y", "both"],
+          "align": ["start", "end", "center"],
+          "stop": ["normal", "always"]
+        },
+        "scheme": ["normal", "light", "dark", "light-dark"]
+      }
+    },
+
+    "svg": {
+      "prefix": "fill / stroke / stroke-w",
+      "description": "SVG styling utilities.",
+      "values": {
+        "fill": ["none", "current", "inherit", "transparent", "primary", "secondary", "accent", "success", "warning", "danger", "info", "text", "white", "black"],
+        "stroke": ["none", "current", "inherit", "transparent", "primary", "text", "white", "black"],
+        "stroke-w": ["0", "1", "2"]
+      }
+    },
+
+    "accessibility": {
+      "description": "Accessibility utilities.",
+      "standalone": ["sr-only", "not-sr-only"],
+      "forced-colors": ["auto", "none"],
+      "ring_focus": "ring:focus — applies focus ring on :focus-visible"
+    }
+  },
+
+  "state_variants": {
+    "description": "State variants modify utilities based on element or related element state. Syntax: state:utility (e.g., hover:bg:primary, focus:ring:accent).",
+
+    "generic_states": {
+      "description": "Generic state utilities that read private CSS custom properties. These auto-work with any semantic bg:* or shadow:* utility.",
+      "hover:bg": "Applies --_bg-hover (set automatically by bg:primary, bg:secondary, etc.). Just add hover:bg alongside any semantic background.",
+      "active:bg": "Applies --_bg-active (set automatically by semantic backgrounds).",
+      "hover:shadow": "Applies --_sh-hover (set automatically by shadow:xs..2xl — each level auto-elevates to next).",
+      "focus:ring": "Applies focus ring using --_ring color (set automatically by semantic backgrounds).",
+      "usage_example": "class=\"bg:primary hover:bg active:bg focus:ring transition:colors\" — full interactive button with zero color configuration."
+    },
+
+    "hover": {
+      "syntax": "hover:utility",
+      "css": ":hover pseudo-class",
+      "available_utilities": {
+        "bg": ["primary", "primary-subtle", "secondary", "secondary-subtle", "accent", "accent-subtle", "success", "success-subtle", "warning", "danger", "danger-subtle", "info", "surface", "surface-raised", "surface-sunken", "transparent", "white", "black", "neutral-1", "neutral-2", "neutral-3", "neutral-4", "neutral-5", "neutral-6", "neutral-7", "neutral-8", "neutral-9"],
+        "color": ["text", "text-muted", "primary", "secondary", "accent", "success", "warning", "danger", "info", "white", "inherit"],
+        "border": ["primary", "secondary", "accent", "danger", "success", "text", "transparent", "neutral-3", "neutral-5"],
+        "shadow": ["sm", "md", "lg", "xl", "none"],
+        "opacity": ["0", "50", "75", "80", "90", "100"],
+        "scale": ["95", "98", "100", "102", "105", "110"],
+        "standalone": ["underline", "no-underline", "line-through"],
+        "translate-y": ["-1", "-2"]
+      }
+    },
+
+    "focus": {
+      "syntax": "focus:utility",
+      "css": ":focus-visible pseudo-class (a11y-compliant — only shows on keyboard navigation)",
+      "available_utilities": {
+        "ring": ["primary", "secondary", "accent", "danger", "success", "warning", "info"],
+        "bg": ["primary-subtle", "surface-sunken"],
+        "border": ["primary", "secondary", "accent", "danger", "success", "warning", "info", "text"],
+        "shadow": ["md", "lg", "none"],
+        "color": ["primary", "danger"],
+        "outline": ["none"]
+      }
+    },
+
+    "focus-within": {
+      "syntax": "focus-within:utility",
+      "css": ":focus-within — triggers when any descendant has focus",
+      "available_utilities": {
+        "border": ["primary", "danger"],
+        "ring": ["primary"],
+        "shadow": ["md"],
+        "bg": ["primary-subtle"]
+      }
+    },
+
+    "active": {
+      "syntax": "active:utility",
+      "css": ":active pseudo-class (mousedown/touch)",
+      "available_utilities": {
+        "scale": ["95", "98", "100"],
+        "bg": ["primary", "primary-subtle"],
+        "shadow": ["none", "sm"]
+      }
+    },
+
+    "disabled": {
+      "syntax": "disabled:utility",
+      "css": ":disabled — also sets cursor: not-allowed and pointer-events: none",
+      "available_utilities": {
+        "opacity": ["50", "40", "30"],
+        "cursor": ["not-allowed"]
+      }
+    },
+
+    "checked": {
+      "syntax": "checked:utility",
+      "css": ":checked pseudo-class for checkboxes/radios",
+      "available_utilities": {
+        "bg": ["primary", "accent", "success"],
+        "border": ["primary", "accent"]
+      }
+    },
+
+    "placeholder": {
+      "syntax": "placeholder:utility",
+      "css": "::placeholder pseudo-element",
+      "available_utilities": {
+        "color": ["text-faint", "text-muted", "neutral-4"]
+      }
+    },
+
+    "structural": {
+      "first": {
+        "syntax": "first:utility",
+        "css": ":first-child",
+        "available": ["mt:0", "pt:0", "border-t:0", "rounded-t:lg"]
+      },
+      "last": {
+        "syntax": "last:utility",
+        "css": ":last-child",
+        "available": ["mb:0", "pb:0", "border-b:0", "rounded-b:lg"]
+      },
+      "odd": {
+        "syntax": "odd:utility",
+        "css": ":nth-child(odd)",
+        "available": { "bg": ["neutral-1", "surface-sunken"] }
+      },
+      "even": {
+        "syntax": "even:utility",
+        "css": ":nth-child(even)",
+        "available": { "bg": ["neutral-1", "surface-sunken"] }
+      }
+    },
+
+    "dark": {
+      "syntax": "dark:utility",
+      "css": "@media (prefers-color-scheme: dark)",
+      "available_utilities": {
+        "bg": ["neutral-9", "neutral-8", "surface", "surface-raised"],
+        "color": ["text", "text-muted", "white"],
+        "border": ["neutral-7", "border"],
+        "display": ["hidden", "block"]
+      }
+    },
+
+    "group": {
+      "description": "Parent-driven state. Add class=\"group\" to a parent element, then use group-hover:* or group-focus:* on child elements to style them based on the parent's state.",
+      "setup": "Parent: class=\"group\". Children: class=\"group-hover:color:primary\"",
+      "group-hover": {
+        "css": ".group:hover .group-hover\\:*",
+        "available": {
+          "bg": ["primary-subtle", "surface-raised", "surface-sunken", "neutral-2", "neutral-3"],
+          "color": ["primary", "accent", "text", "text-muted", "white"],
+          "opacity": ["100", "75", "50"],
+          "visibility": ["visible", "invisible"],
+          "decoration": ["underline", "no-underline"],
+          "shadow": ["md", "lg"],
+          "scale": ["102", "105"],
+          "translate-y": ["-1"],
+          "border": ["primary", "text"],
+          "display": ["block", "hidden", "flex"]
+        }
+      },
+      "group-focus": {
+        "css": ".group:focus-within .group-focus\\:*",
+        "available": {
+          "border": ["primary", "danger"],
+          "ring": ["primary"],
+          "bg": ["primary-subtle"],
+          "color": ["primary"],
+          "shadow": ["md"],
+          "visibility": ["visible"],
+          "display": ["block", "hidden"]
+        }
+      }
+    },
+
+    "peer": {
+      "description": "Sibling-driven state. Add class=\"peer\" to a sibling element (must come BEFORE the target in HTML), then use peer-*:utility on the following sibling. Uses CSS ~ general sibling combinator.",
+      "setup": "Sibling: class=\"peer\". Following sibling: class=\"peer-checked:block\"",
+      "important": "The peer element must appear BEFORE the styled element in the HTML source order.",
+      "peer-hover": {
+        "css": ".peer:hover ~ .peer-hover\\:*",
+        "available": {
+          "bg": ["primary-subtle", "surface-sunken", "neutral-2"],
+          "color": ["primary", "text"],
+          "opacity": ["100"],
+          "visibility": ["visible"],
+          "display": ["block", "hidden", "flex"],
+          "border": ["primary"]
+        }
+      },
+      "peer-focus": {
+        "css": ".peer:focus-visible ~ .peer-focus\\:*",
+        "available": {
+          "border": ["primary", "danger"],
+          "color": ["primary"],
+          "bg": ["primary-subtle"],
+          "ring": ["primary"],
+          "display": ["block", "hidden"]
+        }
+      },
+      "peer-checked": {
+        "css": ".peer:checked ~ .peer-checked\\:*",
+        "description": "Critical for custom checkboxes, toggles, accordions, tabs without JS.",
+        "available": {
+          "display": ["block", "hidden", "flex", "grid"],
+          "bg": ["primary", "primary-subtle", "accent", "success"],
+          "color": ["primary", "white", "text-inverse"],
+          "border": ["primary", "accent"],
+          "opacity": ["100", "0"],
+          "scale": ["100"],
+          "translate-x": ["full"],
+          "rotate": ["180"],
+          "shadow": ["md"]
+        }
+      },
+      "peer-invalid": {
+        "css": ".peer:invalid ~ .peer-invalid\\:*",
+        "description": "Form validation feedback.",
+        "available": {
+          "display": ["block", "hidden"],
+          "color": ["danger"],
+          "border": ["danger"],
+          "bg": ["danger-subtle"]
+        }
+      },
+      "peer-valid": {
+        "css": ".peer:valid ~ .peer-valid\\:*",
+        "available": {
+          "color": ["success"],
+          "border": ["success"]
+        }
+      },
+      "peer-required": {
+        "css": ".peer:required ~ .peer-required\\:*",
+        "available": { "display": ["block"] }
+      },
+      "peer-disabled": {
+        "css": ".peer:disabled ~ .peer-disabled\\:*",
+        "available": {
+          "opacity": ["50"],
+          "color": ["text-faint"]
+        }
+      },
+      "peer-placeholder": {
+        "css": ".peer:placeholder-shown ~ .peer-placeholder\\:* and .peer:not(:placeholder-shown) ~ .peer-placeholder\\:*",
+        "description": "Style based on whether input has placeholder visible (empty) or has content.",
+        "available": {
+          "hidden_when_placeholder_shown": true,
+          "opacity_when_placeholder_shown": ["0"],
+          "block_when_has_content": true,
+          "opacity_when_has_content": ["100"]
+        }
+      }
+    },
+
+    "has": {
+      "description": "CSS :has() — style an element based on descendant state. No .group or .peer class needed. Pure CSS. The element itself is styled based on what its descendants are doing.",
+      "browser_support": "Supported in all modern browsers (Chrome 105+, Safari 15.4+, Firefox 121+).",
+      "has-checked": {
+        "css": ":has(:checked)",
+        "description": "Style element when it contains a checked checkbox/radio.",
+        "available": {
+          "bg": ["primary", "primary-subtle", "accent"],
+          "border": ["primary", "accent"],
+          "shadow": ["md"],
+          "color": ["primary", "white"],
+          "scale": ["102"]
+        }
+      },
+      "has-focus": {
+        "css": ":has(:focus-visible)",
+        "description": "Style element when a descendant has keyboard focus.",
+        "available": {
+          "border": ["primary", "danger"],
+          "shadow": ["md", "lg"],
+          "ring": ["primary"],
+          "bg": ["primary-subtle"],
+          "color": ["primary"]
+        }
+      },
+      "has-hover": {
+        "css": ":has(:hover)",
+        "description": "Style element when a descendant is hovered.",
+        "available": {
+          "bg": ["neutral-2", "primary-subtle"],
+          "border": ["primary"],
+          "shadow": ["md"]
+        }
+      },
+      "has-invalid": {
+        "css": ":has(:invalid)",
+        "description": "Style form container when any field is invalid.",
+        "available": {
+          "border": ["danger"],
+          "bg": ["danger-subtle"],
+          "color": ["danger"],
+          "shadow": ["none"]
+        }
+      },
+      "has-valid": {
+        "css": ":has(:valid)",
+        "available": {
+          "border": ["success"],
+          "color": ["success"]
+        }
+      },
+      "has-empty": {
+        "css": ":has(:empty)",
+        "available": { "display": ["hidden"] }
+      },
+      "empty": {
+        "css": ":empty (self, not descendant)",
+        "available": { "display": ["hidden"] }
+      }
+    }
+  },
+
+  "responsive": {
+    "description": "Responsive variants use @{breakpoint}: prefix. Mobile-first — styles apply at the breakpoint and above.",
+    "syntax": "@{bp}:utility — e.g., @md:text:xl, @lg:grid-cols:3, @xl:hidden",
+    "breakpoints": {
+      "@sm": { "min_width": "40rem (640px)", "description": "Small — phones landscape, small tablets" },
+      "@md": { "min_width": "48rem (768px)", "description": "Medium — tablets" },
+      "@lg": { "min_width": "64rem (1024px)", "description": "Large — laptops, small desktops" },
+      "@xl": { "min_width": "80rem (1280px)", "description": "Extra large — desktops" },
+      "@2xl": { "min_width": "96rem (1536px)", "description": "2XL — large desktops, ultrawide" }
+    },
+    "available_at_all_breakpoints": {
+      "display": ["hidden", "block", "flex", "grid", "inline-flex", "inline-block"],
+      "padding": ["p", "px", "py", "pt", "pb"],
+      "margin": ["m", "mx", "mt", "mb"],
+      "text": ["xs", "sm", "base", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl"],
+      "align": ["left", "center", "right"],
+      "width": ["auto", "full", "1/2", "1/3", "2/3", "1/4", "3/4"],
+      "max-w": ["sm", "md", "lg", "xl", "2xl"],
+      "grid-cols": ["1", "2", "3", "4", "5", "6"],
+      "gap": ["2", "4", "6", "8", "10", "12"],
+      "flex-direction": ["flex-row", "flex-col"],
+      "justify": ["start", "center", "between"],
+      "items": ["start", "center", "stretch"],
+      "order": ["1", "2", "3", "first", "last"],
+      "position": ["static", "relative", "absolute", "sticky"],
+      "col-span": ["1", "2", "3", "4", "6", "full"],
+      "rounded": ["none", "md", "lg", "xl"]
+    },
+    "layout_attribute_responsive": {
+      "description": "Layout attributes also support responsive tokens: @{bp}:{token}",
+      "example": "<div layout=\"col @md:row center-between g4 @lg:g8\">"
+    }
+  },
+
+  "examples": {
+    "description": "Common UI patterns showing how to compose Baseline CSS utilities. These are the most frequent patterns LLMs should generate.",
+
+    "button_primary": {
+      "description": "Primary CTA button with hover, active, focus states and transition.",
+      "html": "<button class=\"bg:primary color:white font:semibold text:sm px:4 py:2 rounded:md hover:bg active:bg active:scale:98 focus:ring transition:colors cursor:pointer\">Save Changes</button>",
+      "notes": "hover:bg and active:bg auto-use the darker shades. focus:ring auto-uses the bg color."
+    },
+
+    "button_secondary": {
+      "description": "Secondary outlined button.",
+      "html": "<button class=\"bg:transparent color:primary border:1 border:primary font:medium text:sm px:4 py:2 rounded:md hover:bg:primary-subtle focus:ring:primary transition:colors cursor:pointer\">Cancel</button>"
+    },
+
+    "button_danger": {
+      "description": "Destructive action button.",
+      "html": "<button class=\"bg:danger color:white font:semibold text:sm px:4 py:2 rounded:md hover:bg active:bg active:scale:98 focus:ring transition:colors cursor:pointer\">Delete</button>"
+    },
+
+    "button_disabled": {
+      "description": "Disabled button.",
+      "html": "<button class=\"bg:primary color:white font:semibold text:sm px:4 py:2 rounded:md disabled:opacity:50 transition:colors cursor:pointer\" disabled>Submit</button>"
+    },
+
+    "card": {
+      "description": "Standard card with elevation and hover lift.",
+      "html": "<div class=\"bg:surface-raised rounded:lg shadow:sm p:6 border:1 border:border-subtle hover:shadow transition:shadow\">\n  <h3 class=\"text:lg font:semibold color:text\">Card Title</h3>\n  <p class=\"text:sm color:text-muted mt:2\">Card description text goes here.</p>\n</div>"
+    },
+
+    "card_interactive": {
+      "description": "Clickable card with group hover.",
+      "html": "<a href=\"#\" class=\"group block bg:surface-raised rounded:lg shadow:sm p:6 border:1 border:border-subtle hover:shadow:md hover:border:primary transition:all\">\n  <h3 class=\"text:lg font:semibold color:text group-hover:color:primary transition:colors\">Project Name</h3>\n  <p class=\"text:sm color:text-muted mt:2\">Click to open project details.</p>\n</a>"
+    },
+
+    "responsive_grid": {
+      "description": "Responsive card grid: 1 col mobile → 2 cols tablet → 3 cols desktop.",
+      "html": "<div class=\"grid grid-cols:1 @md:grid-cols:2 @lg:grid-cols:3 gap:6\">\n  <div class=\"bg:surface-raised rounded:lg p:6 shadow:sm\">Card 1</div>\n  <div class=\"bg:surface-raised rounded:lg p:6 shadow:sm\">Card 2</div>\n  <div class=\"bg:surface-raised rounded:lg p:6 shadow:sm\">Card 3</div>\n</div>"
+    },
+
+    "responsive_grid_layout_attr": {
+      "description": "Same responsive grid using layout attribute instead of classes.",
+      "html": "<div layout=\"grid cols-1 @md:cols-2 @lg:cols-3 g6\">\n  <div class=\"bg:surface-raised rounded:lg p:6 shadow:sm\">Card 1</div>\n  <div class=\"bg:surface-raised rounded:lg p:6 shadow:sm\">Card 2</div>\n  <div class=\"bg:surface-raised rounded:lg p:6 shadow:sm\">Card 3</div>\n</div>"
+    },
+
+    "navbar": {
+      "description": "Responsive navigation bar.",
+      "html": "<nav layout=\"row center-between container\" class=\"py:3 border-b:1 border:border-subtle\">\n  <a href=\"/\" class=\"text:lg font:bold color:text\">Brand</a>\n  <div layout=\"row center g6\" class=\"hidden @md:flex\">\n    <a href=\"#\" class=\"text:sm color:text-muted hover:color:primary transition:colors\">Features</a>\n    <a href=\"#\" class=\"text:sm color:text-muted hover:color:primary transition:colors\">Pricing</a>\n    <a href=\"#\" class=\"text:sm color:text-muted hover:color:primary transition:colors\">Docs</a>\n    <button class=\"bg:primary color:white text:sm font:medium px:4 py:2 rounded:md hover:bg transition:colors\">Sign Up</button>\n  </div>\n</nav>"
+    },
+
+    "form_input": {
+      "description": "Text input with focus state and validation.",
+      "html": "<div class=\"flex flex-col gap:1\">\n  <label class=\"text:sm font:medium color:text\">Email</label>\n  <input type=\"email\" class=\"peer w:full px:3 py:2 text:sm border:1 border:border rounded:md bg:surface focus:border:primary focus:ring:primary transition:colors placeholder:color:text-faint\" placeholder=\"you@example.com\" required />\n  <p class=\"text:xs color:danger hidden peer-invalid:block\">Please enter a valid email.</p>\n</div>"
+    },
+
+    "toggle_switch": {
+      "description": "CSS-only toggle switch using peer-checked.",
+      "html": "<label class=\"relative inline-flex items:center cursor:pointer gap:3\">\n  <input type=\"checkbox\" class=\"peer sr-only\" />\n  <div class=\"w:10 h:6 bg:neutral-3 rounded:full peer-checked:bg:primary transition:colors relative\">\n    <div class=\"absolute top:0.5 left:0.5 size:5 bg:white rounded:full shadow:sm transition:transform peer-checked:translate-x:full\"></div>\n  </div>\n  <span class=\"text:sm font:medium color:text\">Dark mode</span>\n</label>",
+      "note": "The peer class on the hidden input lets peer-checked: control the visual toggle."
+    },
+
+    "accordion": {
+      "description": "CSS-only accordion using peer-checked.",
+      "html": "<div class=\"border:1 border:border rounded:lg\">\n  <label class=\"flex items:center justify:between p:4 cursor:pointer hover:bg:surface-sunken transition:colors\">\n    <span class=\"font:medium\">Section Title</span>\n    <input type=\"checkbox\" class=\"peer sr-only\" />\n    <svg class=\"size:5 transition:transform peer-checked:rotate:180\" viewBox=\"0 0 20 20\" fill=\"currentColor\">\n      <path d=\"M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z\"/>\n    </svg>\n  </label>\n  <div class=\"hidden peer-checked:block p:4 border-t:1 border:border-subtle\">\n    <p class=\"text:sm color:text-muted\">Accordion content goes here.</p>\n  </div>\n</div>"
+    },
+
+    "hero_section": {
+      "description": "Responsive hero section.",
+      "html": "<section class=\"py:16 @md:py:24 @lg:py:32 px:4\">\n  <div layout=\"col center g6\" class=\"max-w:xl mx:auto align:center\">\n    <h1 class=\"text:3xl @md:text:5xl @lg:text:6xl font:bold leading:tight\">Build faster with Baseline CSS</h1>\n    <p class=\"text:lg @md:text:xl color:text-muted max-w:prose\">A zero-build, CSS-native utility framework designed for LLM-powered development.</p>\n    <div layout=\"row center g4 wrap\">\n      <a href=\"#\" class=\"bg:primary color:white font:semibold px:6 py:3 rounded:lg hover:bg transition:colors\">Get Started</a>\n      <a href=\"#\" class=\"bg:transparent color:primary border:1 border:primary font:semibold px:6 py:3 rounded:lg hover:bg:primary-subtle transition:colors\">Documentation</a>\n    </div>\n  </div>\n</section>"
+    },
+
+    "badge": {
+      "description": "Status badge / chip.",
+      "html": "<span class=\"inline-flex items:center px:2 py:0.5 text:xs font:medium rounded:full bg:success-subtle color:success\">Active</span>",
+      "variants": {
+        "warning": "bg:warning-subtle color:warning",
+        "danger": "bg:danger-subtle color:danger",
+        "info": "bg:info-subtle color:info",
+        "neutral": "bg:neutral-2 color:text-muted"
+      }
+    },
+
+    "avatar": {
+      "description": "Circular avatar image.",
+      "html": "<img src=\"avatar.jpg\" alt=\"User\" class=\"size:10 rounded:full object:cover\" />"
+    },
+
+    "modal_overlay": {
+      "description": "Modal with backdrop overlay.",
+      "html": "<div class=\"fixed inset:0 z:overlay bg:black opacity:50\"></div>\n<div class=\"fixed inset:0 z:modal flex items:center justify:center p:4\">\n  <div class=\"bg:surface-overlay rounded:xl shadow:2xl p:6 max-w:md w:full animate:slide-up\">\n    <h2 class=\"text:xl font:semibold\">Modal Title</h2>\n    <p class=\"text:sm color:text-muted mt:2\">Modal content here.</p>\n    <div layout=\"row end g3\" class=\"mt:6\">\n      <button class=\"px:4 py:2 text:sm color:text-muted hover:bg:surface-sunken rounded:md transition:colors\">Cancel</button>\n      <button class=\"bg:primary color:white px:4 py:2 text:sm font:medium rounded:md hover:bg transition:colors\">Confirm</button>\n    </div>\n  </div>\n</div>"
+    },
+
+    "table_striped": {
+      "description": "Striped data table.",
+      "html": "<table class=\"w:full text:sm\">\n  <thead>\n    <tr class=\"border-b:2 border:border\">\n      <th class=\"align:left p:3 font:semibold color:text\">Name</th>\n      <th class=\"align:left p:3 font:semibold color:text\">Email</th>\n      <th class=\"align:left p:3 font:semibold color:text\">Status</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr class=\"border-b:1 border:border-subtle odd:bg:surface-sunken hover:bg:neutral-2 transition:colors\">\n      <td class=\"p:3\">Alice</td>\n      <td class=\"p:3 color:text-muted\">alice@example.com</td>\n      <td class=\"p:3\"><span class=\"bg:success-subtle color:success text:xs font:medium px:2 py:0.5 rounded:full\">Active</span></td>\n    </tr>\n  </tbody>\n</table>"
+    },
+
+    "sidebar_layout": {
+      "description": "Sidebar + main content responsive layout.",
+      "html": "<div class=\"flex flex-col @lg:flex-row min-h:screen\">\n  <aside class=\"w:full @lg:w:64 bg:surface-sunken border-b:1 @lg:border-b:0 @lg:border-e:1 border:border-subtle p:4\">\n    <nav layout=\"col g1\">\n      <a href=\"#\" class=\"px:3 py:2 rounded:md text:sm bg:primary-subtle color:primary font:medium\">Dashboard</a>\n      <a href=\"#\" class=\"px:3 py:2 rounded:md text:sm color:text-muted hover:bg:surface-raised hover:color:text transition:colors\">Settings</a>\n    </nav>\n  </aside>\n  <main class=\"flex:1 p:6 @lg:p:10\">Main content</main>\n</div>"
+    },
+
+    "has_validation_form": {
+      "description": "Form container that reacts to descendant validity using :has().",
+      "html": "<form class=\"has-invalid:border:danger has-valid:border:success border:1 rounded:lg p:6 transition:colors\">\n  <input type=\"email\" class=\"w:full px:3 py:2 border:1 rounded:md\" placeholder=\"Email\" required />\n  <button class=\"mt:4 bg:primary color:white px:4 py:2 rounded:md\">Submit</button>\n</form>",
+      "note": "No JavaScript needed. The form border changes color based on whether its inputs are valid or invalid."
+    },
+
+    "has_checked_card": {
+      "description": "Selectable card using :has(:checked).",
+      "html": "<label class=\"block border:1 border:border rounded:lg p:4 cursor:pointer has-checked:border:primary has-checked:bg:primary-subtle has-checked:shadow:md transition:all\">\n  <input type=\"radio\" name=\"plan\" class=\"sr-only\" />\n  <h3 class=\"font:semibold\">Pro Plan</h3>\n  <p class=\"text:sm color:text-muted mt:1\">$29/month</p>\n</label>",
+      "note": "Pure CSS — no JavaScript. Card styles itself when its hidden radio is selected."
+    },
+
+    "loading_spinner": {
+      "description": "Loading spinner animation.",
+      "html": "<div class=\"size:8 border:2 border:neutral-3 border-t:2 border:primary rounded:full animate:spin\"></div>"
+    }
+  },
+
+  "quick_reference": {
+    "description": "Fast lookup for the most common operations.",
+    "center_text": "align:center",
+    "center_element": "mx:auto (block) or flex items:center justify:center (flex)",
+    "full_width": "w:full",
+    "responsive_hide": "hidden @md:block (hidden mobile, visible tablet+)",
+    "responsive_show": "@md:hidden (visible mobile, hidden tablet+)",
+    "responsive_columns": "grid grid-cols:1 @md:grid-cols:2 @lg:grid-cols:3 gap:6",
+    "dark_theme": "<html data-theme=\"dark\"> or auto via @media (prefers-color-scheme: dark)",
+    "interactive_button": "bg:primary hover:bg active:bg focus:ring transition:colors",
+    "card_pattern": "bg:surface-raised rounded:lg shadow:sm p:6 border:1 border:border-subtle",
+    "input_pattern": "w:full px:3 py:2 border:1 border:border rounded:md focus:border:primary focus:ring:primary",
+    "sr_only": "sr-only (visually hidden but accessible to screen readers)",
+    "truncate_text": "truncate (overflow:hidden + text-overflow:ellipsis + nowrap)",
+    "aspect_video": "aspect:video (16:9)",
+    "sticky_header": "sticky top:0 z:sticky bg:surface",
+    "backdrop_blur": "backdrop-blur:md bg:white opacity:80",
+    "skeleton_pulse": "bg:neutral-2 rounded:md animate:pulse"
+  }
+}
