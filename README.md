@@ -20,7 +20,28 @@ Baseline CSS is a single stylesheet that gives you:
 - **Semantic colours** — `primary`, `secondary`, `accent` instead of arbitrary `blue-500` palettes
 - **Composable themes** — `data-theme="dark high-contrast"` with zero class pollution
 - **CSP compliance** — No inline styles. Enterprise-ready out of the box.
-- **LLM optimised** — ~60% fewer tokens than Tailwind for AI-assisted development
+- **Generic state variants** — `:hover>bg` automatically uses the right hover colour for any semantic `bg:*`
+- **LLM optimised** — ~49% fewer tokens than Tailwind for AI-assisted development
+
+---
+
+## Benchmarks
+
+| Metric | Baseline CSS | Tailwind CSS v4 |
+|---|---|---|
+| Full file (gzipped) | **10 KB** | 190 KB (full) / ~3-10 KB (purged) |
+| Build step | None | Required |
+| CSP compliant | Yes | Partial |
+| Avg HTML tokens | **~49% fewer** | Baseline |
+
+| Component | Baseline | Tailwind | Savings |
+|---|---|---|---|
+| Primary Button | 84 chars | 185 chars | **55%** |
+| Card | 33 chars | 64 chars | **48%** |
+| Form Input | 108 chars | 193 chars | **44%** |
+| Flex Row (centered) | 22 chars | 55 chars | **60%** |
+
+See [BENCHMARKS.md](BENCHMARKS.md) for full side-by-side comparisons.
 
 ---
 
@@ -56,9 +77,9 @@ Baseline separates **structure** from **style**:
 ```html
 <!-- layout attribute = structural composition -->
 <!-- classes = visual properties -->
-<nav layout="row center-between g4" class="px:6 py:3 bg:surface-raised sh:sm">
-  <h1 class="t:xl fw:700 c:text">Logo</h1>
-  <button class="px:4 py:2 bg:primary c:text-inverse r:md tr:colors :hover>bg:primary-hover">
+<nav layout="row center-between g4" class="px:6 py:3 bg:surface bb:1 bc:border-subtle">
+  <h1 class="t:sm fw:600 c:text">Logo</h1>
+  <button class="px:4 py:2 bg:text c:surface r:md fw:500 t:sm tr:colors :hover>o:90 :focus>ring">
     Sign Up
   </button>
 </nav>
@@ -74,13 +95,14 @@ Every utility class follows the `domain:value` pattern:
 |--------|----------|---------|
 | `p` | padding | `p:4`, `px:6`, `py:2` |
 | `m` | margin | `m:4`, `mx:auto`, `mt:6` |
-| `bg` | background-color | `bg:primary`, `bg:surface-raised` |
-| `c` | color | `c:text`, `c:text-muted`, `c:primary` |
+| `bg` | background-color | `bg:primary`, `bg:surface`, `bg:text` |
+| `c` | color | `c:text`, `c:text-muted`, `c:surface` |
 | `t` | font-size | `t:sm`, `t:xl`, `t:3xl` |
 | `fw` | font-weight | `fw:400`, `fw:600`, `fw:700` |
 | `r` | border-radius | `r:sm`, `r:md`, `r:lg`, `r:full` |
 | `sh` | box-shadow | `sh:sm`, `sh:md`, `sh:lg` |
 | `b` | border | `b:1`, `bt:1`, `bb:1` |
+| `bc` | border-color | `bc:border`, `bc:primary`, `bc:text` |
 | `o` | opacity | `o:0`, `o:50`, `o:100` |
 | `tr` | transition | `tr:all`, `tr:colors`, `tr:shadow` |
 | `w` / `h` | width / height | `w:full`, `h:screen` |
@@ -122,6 +144,22 @@ The `layout` attribute uses space-separated tokens for flex, grid, alignment, an
 
 ---
 
+## Base Size Scaling
+
+The `--base-size` token controls the root `font-size`. Since all values use `rem`, changing this single token scales the entire framework:
+
+```css
+:root {
+  --base-size: 100%;   /* default: 1rem = 16px */
+  --base-size: 112.5%; /* larger:  1rem = 18px */
+  --base-size: 87.5%;  /* smaller: 1rem = 14px */
+}
+```
+
+This lets users scale the entire UI up or down by changing one variable.
+
+---
+
 ## Theming
 
 ### Design Tokens
@@ -142,20 +180,23 @@ No config files. No rebuild. Just CSS.
 
 ### Semantic Colours
 
-Baseline uses semantic colour tokens instead of arbitrary palettes:
+Baseline uses semantic colour tokens instead of arbitrary palettes. Every semantic colour has a full family of state variants:
 
 ```css
 :root {
-  /* Brand */
+  /* Brand — each has base, hover, active, subtle */
   --primary         --primary-hover      --primary-active     --primary-subtle
-  --secondary       --secondary-hover    --secondary-subtle
-  --accent          --accent-hover       --accent-subtle
+  --secondary       --secondary-hover    --secondary-active   --secondary-subtle
+  --accent          --accent-hover       --accent-active      --accent-subtle
 
-  /* Feedback */
-  --success         --warning            --danger             --info
+  /* Feedback — same pattern */
+  --success         --success-hover      --success-active     --success-subtle
+  --warning         --warning-hover      --warning-active     --warning-subtle
+  --danger          --danger-hover       --danger-active      --danger-subtle
+  --info            --info-hover         --info-active        --info-subtle
 
   /* Surfaces */
-  --surface         --surface-raised     --surface-sunken
+  --surface         --surface-raised     --surface-sunken     --surface-overlay
 
   /* Text */
   --text            --text-muted         --text-faint         --text-inverse
@@ -163,7 +204,7 @@ Baseline uses semantic colour tokens instead of arbitrary palettes:
   /* Borders */
   --border          --border-subtle      --border-strong
 
-  /* Neutrals (grey scale only) */
+  /* Neutrals (grey scale) */
   --neutral-1 through --neutral-9
 }
 ```
@@ -195,7 +236,7 @@ Because themes cascade through CSS custom properties, you can scope them to any 
 ```html
 <body data-theme="light">
   <!-- Light-themed page -->
-  
+
   <section data-theme="dark" class="bg:surface p:8 r:lg">
     <!-- This section is dark-themed -->
     <p class="c:text">This text adapts automatically.</p>
@@ -217,7 +258,7 @@ Themes stack via space-separated values. Each theme only touches the variables i
 | `dark` | Dark colour scheme |
 | `high-contrast` | Stronger contrast ratios, heavier borders, bolder focus rings |
 | `large-text` | Scaled-up typography for low vision |
-| `reduce-motion` | Zeroes all transition and animation durations |
+| `reduce-motion` | Pauses all animations via `--anim-state` token |
 
 Build a preferences panel:
 ```js
@@ -239,10 +280,11 @@ Responsive variants use the `@` prefix, mirroring CSS at-rules:
 
 | Prefix | Min Width |
 |--------|-----------|
-| `@sm:` | 640px |
-| `@md:` | 768px |
-| `@lg:` | 1024px |
-| `@xl:` | 1280px |
+| `@sm:` | 640px (40rem) |
+| `@md:` | 768px (48rem) |
+| `@lg:` | 1024px (64rem) |
+| `@xl:` | 1280px (80rem) |
+| `@2xl:` | 1536px (96rem) |
 
 Works in both layout attributes and utility classes:
 
@@ -252,34 +294,81 @@ Works in both layout attributes and utility classes:
 
   <!-- Smaller text on mobile, larger on desktop -->
   <h1 class="t:2xl @lg:t:4xl fw:700">Responsive Heading</h1>
-  
-  <!-- Adjust padding at breakpoints -->  
+
+  <!-- Adjust padding at breakpoints -->
   <div class="p:4 @md:p:6 @lg:p:8">
     Content
   </div>
 </div>
 ```
 
+Responsive variants are available for: display, spacing (p/px/py/mb/mt/mx), typography, text-align, width, max-width, order, and all layout attributes (grid cols, gap, direction, spans).
+
 ---
 
 ## State Variants
 
-State variants use the `:state>domain:value` pattern:
+### Generic State Pattern
+
+Semantic `bg:*` utilities set private CSS variables for their hover, active, and ring colours. Generic state classes read these variables, so **one class works for every colour**:
 
 ```html
-<button class="
-  bg:primary c:text-inverse r:md px:4 py:2
-  tr:colors
-  :hover>bg:primary-hover
-  :focus>ring:primary
-  :active>scale:98
-  :disabled>o:50
-">
-  Submit
+<!-- :hover>bg automatically uses danger-hover because bg:danger set it -->
+<button class="bg:danger c:text-inverse r:md px:4 py:2 tr:colors :hover>bg :active>bg :focus>ring">
+  Delete
 </button>
 ```
 
-The `>` reads naturally as "on hover, apply bg primary-hover".
+This means adding a new colour to your design system automatically gets hover, active, and focus states — no extra state classes needed.
+
+The same pattern applies to shadows — each `sh:*` utility sets `--_sh-hover` to the next elevation:
+
+```html
+<!-- Automatically elevates: xs→sm, sm→md, md→lg, lg→xl -->
+<div class="sh:md :hover>sh">
+```
+
+### How It Works
+
+Each semantic `bg:*` utility sets private custom properties:
+
+```css
+.bg\:primary {
+  background-color: var(--primary);
+  --_bg-hover: var(--primary-hover);
+  --_bg-active: var(--primary-active);
+  --_ring: var(--primary);
+}
+
+/* One class covers ALL semantic colours */
+.\:hover\>bg:hover { background-color: var(--_bg-hover); }
+.\:active\>bg:active { background-color: var(--_bg-active); }
+.\:focus\>ring:focus-visible {
+  outline: var(--focus-ring-width) solid var(--_ring);
+  outline-offset: var(--focus-ring-offset);
+}
+```
+
+### Explicit Overrides
+
+For non-semantic colours or when you need a specific target, explicit variants still work:
+
+```html
+<!-- Neutral bg doesn't have state vars, use explicit -->
+<button class="bg:surface :hover>bg:neutral-2 :focus>ring:primary">Outline</button>
+
+<!-- Override the generic hover with a specific colour -->
+<button class="bg:primary :hover>bg:danger">Custom Hover</button>
+```
+
+| Generic | Reads from | Set by |
+|---------|-----------|--------|
+| `:hover>bg` | `--_bg-hover` | `bg:primary`, `bg:danger`, etc. |
+| `:active>bg` | `--_bg-active` | `bg:primary`, `bg:danger`, etc. |
+| `:focus>ring` | `--_ring` | `bg:*` (defaults to `--focus-ring` / primary) |
+| `:hover>sh` | `--_sh-hover` | `sh:xs`, `sh:sm`, `sh:md`, `sh:lg`, `sh:xl` |
+
+### Explicit State Variants
 
 | Prefix | Selector |
 |--------|----------|
@@ -287,6 +376,25 @@ The `>` reads naturally as "on hover, apply bg primary-hover".
 | `:focus>` | `:focus-visible` |
 | `:active>` | `:active` |
 | `:disabled>` | `:disabled` |
+
+Available explicit variants: `:hover>bg:neutral-2`, `:hover>bg:neutral-3`, `:hover>c:text`, `:hover>c:text-muted`, `:hover>c:primary`, `:hover>o:90`, `:hover>scale:105`, `:hover>td:underline`, `:hover>td:none`, `:focus>bc:text`, `:focus>bc:primary`, `:active>scale:98`, `:disabled>o:50`, and more.
+
+---
+
+## Animations
+
+Built-in animation utilities that respect the `reduce-motion` theme:
+
+```html
+<div class="anim:spin">   <!-- 360° rotation -->
+<div class="anim:pulse">  <!-- Scale pulse -->
+<div class="anim:bounce"> <!-- Bounce up/down -->
+<div class="anim:fade-in"> <!-- Fade in from transparent -->
+<div class="anim:slide-up"> <!-- Slide up from below -->
+<div class="anim:shake">  <!-- Horizontal shake -->
+```
+
+All animations use `animation-play-state: var(--anim-state)`. The `reduce-motion` theme sets `--anim-state: paused`, instantly freezing all animations without JavaScript.
 
 ---
 
@@ -315,30 +423,30 @@ A card component in Tailwind vs Baseline:
 
 ### Tailwind
 ```html
-<div class="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+<div class="flex flex-col gap-4 p-6 bg-card text-card-foreground rounded-lg border border-border">
   <div class="flex items-center justify-between">
-    <h3 class="text-lg font-semibold text-gray-900">Card Title</h3>
-    <span class="text-sm text-gray-500">3 min ago</span>
+    <h3 class="text-sm font-semibold text-foreground">Card Title</h3>
+    <span class="text-xs text-muted-foreground">3 min ago</span>
   </div>
-  <p class="text-gray-600 leading-relaxed">Card content goes here.</p>
-  <div class="flex gap-2 pt-2 border-t border-gray-100">
-    <button class="px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700">Action</button>
-    <button class="px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-100">Cancel</button>
+  <p class="text-sm text-muted-foreground leading-relaxed">Card content goes here.</p>
+  <div class="flex gap-2 pt-3 border-t border-border">
+    <button class="px-3 py-1 text-xs bg-primary text-primary-foreground rounded-md transition-colors hover:bg-primary/90">Action</button>
+    <button class="px-3 py-1 text-xs text-muted-foreground rounded-md hover:bg-accent">Cancel</button>
   </div>
 </div>
 ```
 
 ### Baseline
 ```html
-<div layout="col g4" class="p:6 bg:surface-raised r:lg sh:md tr:shadow :hover>sh:lg">
+<div layout="col g3" class="p:6 bg:surface r:lg b:1 bc:border">
   <div layout="row center-between">
-    <h3 class="t:lg fw:600 c:text">Card Title</h3>
-    <span class="t:sm c:text-muted">3 min ago</span>
+    <h4 class="t:sm fw:600 c:text">Card Title</h4>
+    <span class="t:xs c:text-faint">3 min ago</span>
   </div>
-  <p class="c:text-muted lh:relaxed">Card content goes here.</p>
-  <div layout="row g2" class="pt:2 bt:1 bc:border-subtle">
-    <button class="px:3 py:1.5 t:sm bg:primary c:text-inverse r:md tr:colors :hover>bg:primary-hover">Action</button>
-    <button class="px:3 py:1.5 t:sm c:text-muted r:md tr:colors :hover>bg:neutral-2">Cancel</button>
+  <p class="t:sm c:text-muted lh:relaxed">Card content goes here.</p>
+  <div layout="row g2" class="pt:3 bt:1 bc:border-subtle">
+    <button class="px:3 py:1 t:xs bg:text c:surface r:md tr:colors :hover>o:90">Action</button>
+    <button class="px:3 py:1 t:xs c:text-muted r:md tr:colors :hover>bg:neutral-2">Cancel</button>
   </div>
 </div>
 ```
@@ -346,9 +454,10 @@ A card component in Tailwind vs Baseline:
 **What's different:**
 - Layout intent is immediately clear from the `layout` attribute
 - Semantic colours (`bg:primary`) instead of arbitrary values (`bg-blue-600`)
+- Generic state variants (`:hover>bg`) instead of per-colour classes
 - Compressed syntax reduces visual noise
 - Dark mode works automatically — no `dark:` prefixes needed
-- ~60% fewer tokens for LLM generation
+- ~49% fewer tokens for LLM generation
 
 ---
 
@@ -367,9 +476,11 @@ Values reference the spacing scale: `0`, `0.5`, `1`, `1.5`, `2`, `3`, `4`, `5`, 
 
 ### Colours
 
-**Background:** `bg:primary`, `bg:primary-subtle`, `bg:secondary`, `bg:accent`, `bg:success`, `bg:warning`, `bg:danger`, `bg:info`, `bg:surface`, `bg:surface-raised`, `bg:surface-sunken`, `bg:neutral-{1-9}`, `bg:transparent`
+**Background:** `bg:primary`, `bg:primary-subtle`, `bg:secondary`, `bg:accent`, `bg:success`, `bg:warning`, `bg:danger`, `bg:info`, `bg:surface`, `bg:surface-raised`, `bg:surface-sunken`, `bg:text`, `bg:neutral-{1-9}`, `bg:transparent`
 
-**Text:** `c:text`, `c:text-muted`, `c:text-faint`, `c:text-inverse`, `c:primary`, `c:secondary`, `c:accent`, `c:success`, `c:warning`, `c:danger`, `c:info`, `c:neutral-{1-9}`, `c:inherit`
+**Text:** `c:text`, `c:text-muted`, `c:text-faint`, `c:text-inverse`, `c:surface`, `c:primary`, `c:secondary`, `c:accent`, `c:success`, `c:warning`, `c:danger`, `c:info`, `c:neutral-{1-9}`, `c:inherit`
+
+**Border:** `bc:border`, `bc:border-subtle`, `bc:border-strong`, `bc:text`, `bc:primary`, `bc:secondary`, `bc:accent`, `bc:success`, `bc:warning`, `bc:danger`, `bc:info`, `bc:transparent`
 
 ### Typography
 
@@ -393,9 +504,7 @@ Values reference the spacing scale: `0`, `0.5`, `1`, `1.5`, `2`, `3`, `4`, `5`, 
 
 ### Borders
 
-**Border:** `b:0`, `b:1`, `b:2`, `bt:1`, `bb:1`, `bs:1`, `be:1`
-
-**Border colour:** `bc:border`, `bc:border-subtle`, `bc:border-strong`, `bc:primary`, `bc:danger`, `bc:success`, `bc:transparent`
+**Border:** `b:0`, `b:1`, `b:2`, `bt:1`, `bt:2`, `bb:1`, `bb:2`, `bs:1`, `bs:2`, `be:1`, `be:2`
 
 **Radius:** `r:none`, `r:sm`, `r:md`, `r:lg`, `r:xl`, `r:2xl`, `r:3xl`, `r:full`
 
@@ -403,15 +512,25 @@ Values reference the spacing scale: `0`, `0.5`, `1`, `1.5`, `2`, `3`, `4`, `5`, 
 
 `sh:none`, `sh:xs`, `sh:sm`, `sh:md`, `sh:lg`, `sh:xl`
 
+Each shadow utility sets `--_sh-hover` to the next level, so `:hover>sh` auto-elevates.
+
 ### Sizing
 
-**Width:** `w:full`, `w:auto`, `w:screen`, `w:min`, `w:max`, `w:fit`
+**Width:** `w:full`, `w:auto`, `w:screen`, `w:min`, `w:max`, `w:fit`, `w:half`
 
 **Max width:** `max-w:sm`, `max-w:md`, `max-w:lg`, `max-w:xl`, `max-w:full`, `max-w:prose`
 
 **Height:** `h:full`, `h:auto`, `h:screen`, `h:min`, `h:fit`
 
 **Min height:** `min-h:0`, `min-h:full`, `min-h:screen`
+
+**Fixed sizes:** `size:4`, `size:5`, `size:6`, `size:8`, `size:10`, `size:12`, `size:16`
+
+### Animations
+
+`anim:spin`, `anim:pulse`, `anim:bounce`, `anim:fade-in`, `anim:slide-up`, `anim:shake`
+
+All respect `--anim-state` (paused in `reduce-motion` theme).
 
 ### Effects
 
@@ -475,6 +594,8 @@ Baseline CSS exists because:
 5. **Build steps should be optional.** A `<link>` tag should be enough.
 
 6. **LLMs write a lot of code now.** Token efficiency matters for cost, speed, and context window limits.
+
+7. **State variants should be smart.** Generic `:hover>bg` that reads from the base colour's family is better than writing N explicit hover classes per colour.
 
 ---
 
